@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.happytable.mapper.SalesMapper">
+ <insert id="insert">
+ <![CDATA[
+ insert into tb_sales (tableNum, resNum, tableType, headCount) values (#{tableNum}, #{resNum}, #{tableType}, #{headCount})
+ ]]>
+ </insert>
+ 
+ <select id="readList" resultType="com.happytable.domain.SalesVO">
+ <![CDATA[
+ select /*+INDEX(tb_sales sales_index)*/ * from tb_sales where resNum = #{resNum}
+ ]]>
+ </select>
+ 
+ <select id="read" resultType="com.happytable.domain.SalesVO">
+ <![CDATA[
+ select /*+INDEX(tb_sales sales_index)*/ * from tb_sales where resNum = #{resNum} and tableNum = #{tableNum}
+ ]]>
+ </select>
+ 
+ <update id="update">
+ <![CDATA[
+ update tb_sales set tableType = #{tableType}, headCount = #{headCount} where resNum = #{resNum} and tableNum = #{tableNum}
+ ]]>
+ </update>
+ 
+ <delete id="delete">
+ <![CDATA[
+ delete from tb_sales where resNum = #{resNum} and tableNum = #{tableNum}
+ ]]>
+ </delete>
+ 
+ <delete id="deleteAll">
+ <![CDATA[
+ delete from tb_sales where resNum = #{resNum} 
+ ]]>
+ </delete>
+ 
+<select id="countTable" resultType="int">
+ <![CDATA[
+ select /*+INDEX(tb_sales sales_index)*/ count(*) from tb_sales where resNum = #{resNum}
+ ]]>
+ </select>
+ 
+ </mapper> 
