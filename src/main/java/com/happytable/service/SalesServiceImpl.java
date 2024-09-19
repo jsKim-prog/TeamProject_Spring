@@ -26,8 +26,9 @@ public class SalesServiceImpl implements SalesService{
 	@Override
 	public int register(SalesVO sales) {  //**09/14수정-rest tb에 개수 동시등록
 		log.info("SalesServiceImpl.register() 서비스 실행.....");
-		int tableCnt = mappsal.insert(sales);
-		mappRest.updateTableCnt(sales.getResNum(), tableCnt);
+		int tableCnt = mappsal.insert(sales); //1. sales_tb에 등록
+		int total = mappsal.countTable(sales.getResNum()); //2. sales_tb 등록개수 불러오기
+		mappRest.updateTableCnt(sales.getResNum(), total); //3. restaurant_tb 등록개수 업데이트
 		return tableCnt ;
 	}
 

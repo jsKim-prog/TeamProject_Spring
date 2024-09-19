@@ -26,8 +26,9 @@ public class MenuServiceImpl implements MenuService{
 	@Override
 	public int register(MenuVO menu) { //**09/14수정-rest tb에 개수 동시등록
 		log.info("MenuServiceImpl.register() 서비스 실행.....");
-		int menuCnt = mappme.insert(menu);
-		mappRest.updateMenuCnt(menu.getResNum(), menuCnt);
+		int menuCnt = mappme.insert(menu); // 1. menu_tb에 등록 
+		int total = mappme.countMenu(menu.getResNum()); //2. menu_tb의 등록메뉴 개수 가져오기
+		mappRest.updateMenuCnt(menu.getResNum(), total); //3. restaurnat_tb에 업데이트
 		return menuCnt;
 	}
 

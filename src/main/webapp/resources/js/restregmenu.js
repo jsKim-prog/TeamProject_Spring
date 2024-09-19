@@ -40,22 +40,22 @@ $(document).ready(function() {
 	});
 	
 	function showMenuList(resNum){
-		getMenus(resNum, function(list){
-			console.log("test:"+list);
+		getMenus(resNum, function(menuCnt, menus){
+			console.log("test:"+menus);
 			
-			if(list==null || list.length==0){ //리스트 없으면 메뉴영역 감추기
+			if(menuCnt==0){ //리스트 없으면 메뉴영역 감추기
 				textArea.css("display", "block");
 				menuArea.css("display", "none");
 			}
 			
-			var str = "";
-			for(var i=0, len=list.length||0; i<len;i++){
-				str+="<li class='left clearfix' data-mno='"+list[i].menuNum+"'>";
-				str+="<div><div class='header'><strong class='primary-font'>"+list[i].menuName+"</strong>";
-				str+="<strong class='pull-right text-muted'>"+list[i].unitCost+"</strong></div>";
-				str+="<p>"+list[i].menuAcoount+"</p></div></li>";								
+		/*	var str = "";
+			for(var i=0, len=menus.length||0; i<len;i++){
+				str+="<li class='left clearfix' data-mno='"+menus[i].menuNum+"'>";
+				str+="<div><div class='header'><strong class='primary-font'>"+menus[i].menuName+"</strong>";
+				str+="<strong class='pull-right text-muted'>"+menus[i].unitCost+"</strong></div>";
+				str+="<p>"+menus[i].menuAcoount+"</p></div></li>";								
 			}
-			menuArea.html(str);
+			menuArea.html(str); */
 			textArea.css("display", "none");
 			menuArea.css("display", "block");
 		});
@@ -90,7 +90,13 @@ function regMenu(menu, callback, error) {
 //등록메뉴 불러오기(리스트보이기)
 function getMenus(resNum, callback, error){
 	console.log("test:메뉴리스트get ajax 함수실행....");
-	$.getJSON("/restaurant/getmenus/"+resNum+".json", function(list){
-		if(callback){callback(list)}
-	}).fail(function(xhr, status, er){error(er);});
-} //--showMenu()
+	$.getJSON("/restaurant/getmenus/"+resNum+".json", 
+	function(data){
+		console.log("받은 파일:"+data);
+		if(callback){
+			callback(data.menuCnt, data.menus)
+			}
+	}).fail(function(xhr, status, err){
+		if (error) { error(); }
+		});
+} //--getMenus()

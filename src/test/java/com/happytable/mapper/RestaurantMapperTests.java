@@ -20,7 +20,12 @@ public class RestaurantMapperTests {
 	
 	@Setter(onMethod_ = @Autowired)
 	private RestaurantMapper mapper;
-	
+	@Setter(onMethod_ = @Autowired)
+	private OperationsMapper mappOper;
+	@Setter(onMethod_ = @Autowired)
+	private SalesMapper mappSal;
+	@Setter(onMethod_ = @Autowired)
+	private MenuMapper mappMenu;
 	
 	//restaurantMapper
 	@Test
@@ -79,6 +84,21 @@ public class RestaurantMapperTests {
 	public void testLoginCheck() {
 		int rst = mapper.loginChech("kkk", "kkk");
 		log.info("계정개수 : "+rst); //계정개수 : 1
+	}
+	
+	@Test //등록정보 cnt 업데이트
+	public void testCnt() {
+		List<RestaurantVO> rests = mapper.resList();
+		for(RestaurantVO temp:rests) {
+			String resnum = temp.getResNum();
+			int cntOper = mappOper.checkOper(resnum);
+			int cntTable = mappSal.countTable(resnum);
+			int cntMenu = mappMenu.countMenu(resnum);
+			mapper.updateOperCnt(resnum, cntOper);
+			mapper.updateTableCnt(resnum, cntTable);
+			mapper.updateMenuCnt(resnum, cntMenu);
+			log.info("업데이트 결과:"+temp);
+		}
 	}
 
 }

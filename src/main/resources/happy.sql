@@ -47,7 +47,8 @@ dayoff_weekCnt varchar2(10),
 dayoff_Day varchar2(10),
 adPaySel number(2),
 adPay number(10),
-adPayCond number(3)
+adPayCond number(3),
+menuReserv varchar2(10) default 'false'
 );
 
 select * from tb_oper;
@@ -58,6 +59,10 @@ alter table tb_oper add constraint op_num_fk foreign key (resNum) references tb_
 alter table tb_oper modify dayoff_weekCnt varchar2(10); --create 반영됨
 
 insert into tb_oper (resNum, openTime, endTime, adPaySel, adPay, adPayCond, breakTime, breakTime_start, breakTime_end, dayoff_cate, dayoff_weekCnt, dayoff_Day) values ('10000002tes', '09:00', '22:00', 1, 100000, 10, 1, '15:30', '17:30', '매주', '-', '수') ;
+
+--**0918 column 추가 --create 에 반영됨
+alter table tb_oper add menuReserv varchar2(10) default 'false';
+--alter table tb_oper drop column menuReserv;
 
 ---------------------------- tb_sales : 레스토랑 테이블 정보
 create table tb_sales(
@@ -80,12 +85,12 @@ create index sales_index on tb_sales (resNum);
 create table tb_menu(
 menuNum number(10) primary key,
 resNum varchar2(20),
-menuName varchar2(20),
-menuAcoount varchar2(50), 
-mainIngredient varchar2(20),
+menuName varchar2(100),
+menuAcoount varchar2(200), 
+mainIngredient varchar2(200),
 serving number(2),
 unitCost number(10),
-menuImg varchar2(50)
+menuImg varchar2(200)
 );
 
 select * from tb_menu;
@@ -94,7 +99,10 @@ drop table tb_menu;
 alter table tb_menu add constraint menu_num_fk foreign key (resNum) references tb_restaurant (resNum);
 create sequence seq_menu;
 alter table tb_menu modify menuAcoount varchar2(50);
-
+alter table tb_menu modify menuName varchar2(100); --9/18 입력내용길이조절
+alter table tb_menu modify menuAcoount varchar2(200);
+alter table tb_menu modify mainIngredient varchar2(200);
+alter table tb_menu modify menuImg varchar2(200);
 
 ------------------------------------------test용 영역
 SELECT DECODE(TO_CHAR(TRUNC(sysdate,'MONTH'), 'D'), 7,TRUNC(sysdate,'MONTH'), NEXT_DAY(TRUNC(sysdate,'MONTH'),'토')) FIRST, DECODE(TO_CHAR(TRUNC(sysdate,'MONTH'), 'D'), 7,TRUNC(sysdate,'MONTH')+14, NEXT_DAY(TRUNC(sysdate,'MONTH'),'토')+14) THIRD FROM dual;

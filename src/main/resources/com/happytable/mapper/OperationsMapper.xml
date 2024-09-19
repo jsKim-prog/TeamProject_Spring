@@ -6,7 +6,7 @@
 
 <insert id="insert">
 <![CDATA[
-insert into tb_oper (resNum, openTime, endTime, adPaySel, adPay, adPayCond, breakTime, breakTime_start, breakTime_end, dayoff_cate, dayoff_weekCnt, dayoff_Day) values (#{resNum}, #{openTime}, #{endTime}, #{adPaySel}, #{adPay}, #{adPayCond}, #{breakTime}, #{breakTime_start}, #{breakTime_end}, #{dayoff_cate}, #{dayoff_weekCnt}, #{dayoff_Day}) 
+insert into tb_oper (resNum, openTime, endTime, adPaySel, adPay, adPayCond, breakTime, breakTime_start, breakTime_end, dayoff_cate, dayoff_weekCnt, dayoff_Day, menuReserv) values (#{resNum}, #{openTime}, #{endTime}, #{adPaySel}, #{adPay}, #{adPayCond}, #{breakTime}, #{breakTime_start}, #{breakTime_end}, #{dayoff_cate}, #{dayoff_weekCnt}, #{dayoff_Day}, #{menuReserv}) 
 ]]>
 </insert>
 
@@ -18,7 +18,7 @@ select * from tb_oper where resNum = #{resNum}
 
 <update id="update">
 <![CDATA[
-update tb_oper set openTime = #{openTime}, endTime = #{endTime}, adPaySel = #{adPaySel}, adPay = #{adPay}, adPayCond = #{adPayCond}, dayoff_cate = #{dayoff_cate}, dayoff_weekCnt = #{dayoff_weekCnt}, dayoff_Day = #{dayoff_Day}, breakTime = #{breakTime}, breakTime_start = #{breakTime_start}, breakTime_end = #{breakTime_end} where resNum = #{resNum} 
+update tb_oper set openTime = #{openTime}, endTime = #{endTime}, adPaySel = #{adPaySel}, adPay = #{adPay}, adPayCond = #{adPayCond}, dayoff_cate = #{dayoff_cate}, dayoff_weekCnt = #{dayoff_weekCnt}, dayoff_Day = #{dayoff_Day}, breakTime = #{breakTime}, breakTime_start = #{breakTime_start}, breakTime_end = #{breakTime_end}, menuReserv = #{menuReserv} where resNum = #{resNum} 
 ]]> 
 </update>
 

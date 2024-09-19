@@ -10,6 +10,10 @@
 	</div>
 	<!-- .col-md-12 close -->
 </div>
+<div class="alert alert-danger" style="display: none; text-align: center;">
+<input type="hidden" id="result" value="${result}">
+<p></p>
+</div><!-- 가입결과 알럿창(hidden) -->
 <!-- .row close -->
 <div class="row">
 	<div class="col-md-8 col-md-offset-2">

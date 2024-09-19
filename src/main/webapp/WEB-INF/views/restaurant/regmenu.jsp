@@ -23,6 +23,12 @@
 				<div class="listarea">
 				<div class="well" style="display:block"><p align="center">[메뉴추가] 버튼을 클릭하여 메뉴를 등록하세요.</p></div>
 				<ul class="chat" style="display:none">
+				<c:forEach items="${menus}" var="menus">
+				<li class='left clearfix' data-mno="${menus.menuNum}">
+				<div><div class='header'><strong class='primary-font'>${menus.menuName}</strong>
+				<strong class='pull-right text-muted'>${menus.unitCost} 원</strong></div>
+				<p>${menus.menuAcoount}</p></div></li>
+				</c:forEach>
 				</ul>
 				</div>
 			</form>
@@ -52,6 +58,8 @@
 				<div class="panel-heading">메뉴등록</div>
 				<!-- .panel-heading -->
 				<div class="panel-body">
+				<!-- resnum 전송위한 hidden -->
+<input type="hidden" id="menu_resNum" name="resNum" value="${loginResNum}">
 					<div class="row" style="width: 90%; margin-left: 20px;">
 						<div class="form-group">
 							<label for="menuName">메뉴명</label><input type="text" class="form-control" id="menuName" name="menuName"/>
@@ -88,7 +96,7 @@
 					<!--.row  -->
 					<div class="row" style="width: 90%; margin-left: 20px;">
 						<div class="form-group">
-							<label for="menuImg">이미지파일(선택사항-구현중)</label> <input type="file"  id="menuImg" name="menuImg">
+							<label for="menuImg">이미지파일(선택사항-구현중)</label> <input type="text"  id="menuImg" name="menuImg">
 						</div>
 					</div>
 					<!--.row  -->
@@ -111,11 +119,6 @@
 	<!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
-
-<!-- resnum 전송위한 hidden -->
-<form role="form" id ="sendresNum" action="/restaurant/regtablesuccess">
-	<input type="hidden" id="menu_resNum" name="resNum" value="${resNum}">
-</form>	
 <script type="text/javascript" src="/resources/js/restregmenu.js"></script>
 <%@ include file="../includes/footer2.jsp"%>
 

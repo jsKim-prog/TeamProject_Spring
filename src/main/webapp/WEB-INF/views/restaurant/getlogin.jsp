@@ -1,15 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="../includes/header2.jsp"%>
-<div class="row">
-	<div class="col-md-12">
-		<h1 class="heading ">
-			<span>Restaurant Login</span>
-		</h1>
-	</div>
-	<!-- .col-md-12 close -->
-</div>
-<!-- .row close -->
 <div class="row">
 	<div class="col-md-4 col-md-offset-4">
 		<div class="panel panel-default" style="margin-top: 50px;">
@@ -42,7 +32,4 @@
 		</div>
 	</div>
 </div>
-<!-- hidden form : resNum -->
-
 <script type="text/javascript" src="/resources/js/restlogin.js"></script>
-<%@ include file="../includes/footer2.jsp"%>

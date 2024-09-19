@@ -41,7 +41,7 @@
 							</select>
 							</td>
 							<td><div class="input-group">
-							<input class="form-control"  type="number" name="headCount" /><span class="input-group-addon">명</span></div></td>
+							<input class="form-control"  type="number" name="headCount" value="0"/><span class="input-group-addon">명</span></div></td>
 							<td><input id="delBtn1" class="delbtn btn btn-default btn-sm"  value="삭제" onclick="deleteTR(1)" style="width: 60%">
 							</td>
 						</tr>
@@ -63,8 +63,6 @@
 </div>
 <!-- .row -->
 <!-- resnum 전송위한 hidden -->
-<form role="form" id ="sendresNum" action="/restaurant/regtablesuccess">
-	<input type="hidden" id="sales_resNum" name="resNum" value="${resNum}">
-</form>	
+<input type="hidden" id="sales_resNum" name="resNum" value="${loginResNum}">
 <script type="text/javascript" src="/resources/js/restregtable.js"></script>
 <%@ include file="../includes/footer2.jsp"%>

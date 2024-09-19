@@ -142,4 +142,15 @@ $(document).ready(function() {
 		$("#co_Num").val(resPhone);
 	});
 	
+	
+	//가입오류메시지 보이기--**테스트 안됨(0918)
+	var regResult = $("#result").val();
+	var alertDVI = $(".alert alert-danger");
+	var msgArea = $(".alert alert-danger p");
+	console.log($("#result").val);
+	if(regResult=="error"){
+		msgArea.html("가입오류. 관리자에게 문의하세요.");
+		alertDVI.attr("display", block);
+	}
+	
 	}); //--$(document).ready

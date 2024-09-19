@@ -15,7 +15,7 @@ $(document).ready(function() {
 			+ "<option value='table'>홀타입</option>"
 			+ "</select></td>"
 			+ "<td><div class='input-group'>"
-			+ "<input class='form-control'  type='number' name='headCount' /><span class='input-group-addon'>명</span></div></td>"
+			+ "<input class='form-control'  type='number' name='headCount' value='0'/><span class='input-group-addon'>명</span></div></td>"
 			+ "<td><input id='delBtn" + vrNum + "' class='delbtn btn btn-default btn-sm' value='삭제' onclick='deleteTR(" + vrNum + ")' style='width: 60%'>"
 			+ "</td></tr>";
 		$("#table-body").append(clonetr);
@@ -37,8 +37,8 @@ $(document).ready(function() {
 			contentType: "application/json; charset=utf-8",
 			success: function(result) {
 				console.log(result);
-				if(result=="success"){ //등록성공->resnum post로 보내기(url 전환)
-					resNumsubmit();
+				if(result=="success"){ //등록성공->url 전환
+					location.href='/restaurant/myrestaurant';
 				}else{
 					alert("등록오류. 관리자에게 문의하세요.");
 				}
@@ -49,7 +49,7 @@ $(document).ready(function() {
 					error();
 				}
 			}
-		});//--ajax
+		});//--ajax 
 
 	});
 
@@ -86,10 +86,4 @@ function makeFormList(form) {
 
 }
 
-//resNum 보내기
-function resNumsubmit() {
-	var resNumForm = $("form[id='sendresNum']");
-	resNumForm.attr("action", "/restaurant/regtablesuccess");
-	resNumForm.attr("method", "post");
-	resNumForm.submit();
-}
+//resNum 보내기 -- 9/18 session저장으로 삭제

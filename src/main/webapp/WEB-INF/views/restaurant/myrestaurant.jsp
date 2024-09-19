@@ -48,7 +48,7 @@
 	<form role="form" name="resnumForm" id="resnumForm" action=""
 		method="get">
 		<input type="hidden" id="rest_resNum" name="resNum"
-			value="${myrest.resNum}">
+			value="${loginResNum}">
 	</form>
 
 	<!-- Tab panes -->
@@ -171,7 +171,7 @@
 			<form id="operForm" method="post" action="restaurant/register"
 				onsubmit="return valForm(this)">
 				<input type="hidden" name="resNum" id="oper_resNum"
-					value="${resNum}">
+					value="${loginResNum}">
 				<jsp:include page="./getoper.jsp"></jsp:include>
 			</form>
 
@@ -182,7 +182,7 @@
 			<form id="saleForm" method="post" action="restaurant/register"
 				onsubmit="return valForm(this)">
 			 <input type="hidden" name="resNum" id="sales_resNum"
-					value="${resNum}">
+					value="${loginResNum}">
 				<jsp:include page="./gettable.jsp"></jsp:include>	
 			</form>
 		</div>

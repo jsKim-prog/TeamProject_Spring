@@ -14,39 +14,42 @@
 </div>
 <!-- .row close -->
 <div class="row" style="margin-top: 50px;">
-	<form id="reginfoForm" method="post" action="/restaurant/reginfo" onsubmit="return valForm(this)">
-		<div class="col-md-8 col-md-offset-2">
+	<form id="reginfoForm" method="post" action="/restaurant/reginfo"
+		onsubmit="return valForm(this)">
+		<div class="col-md-6 col-md-offset-3">
 			<div class="panel panel-info">
 				<div class="panel-heading">영업정보</div>
 				<div class="panel-body">
 					<!-- 영업시간 입력란 -->
-					<input type="hidden" id="oper_resNum" name="resNum" value="${resNum}">
-					<div class="row">
-						<div class="col-md-4 form-group">
+					<input type="hidden" id="oper_resNum" name="resNum"
+						value="${loginResNum}">
+					<div class="row position-relative">
+						<div class="col-md-6 form-group">
 							<label>OPEN</label> <input type="time" class="form-control"
-								id="inputTime_op" />
-								<input type="hidden" id="openTime" name="openTime" value=""/>
+								id="inputTime_op" /> <input type="hidden" id="openTime"
+								name="openTime" value="" />
 						</div>
 						<!-- col-md-3 -->
 
-						<div class="col-md-4 form-group">
+						<div class="col-md-6 form-group">
 							<label>CLOSE</label> <input type="time" class="form-control"
-								id="inputTime_ed"/>
-								<input type="hidden" id="endTime" name="endTime"  />
+								id="inputTime_ed" /> <input type="hidden" id="endTime"
+								name="endTime" />
 						</div>
 						<!-- col-md-3 -->
 					</div>
 					<!-- .row close -->
 					<!-- breakTime 입력란 -->
 					<div class="row">
-						<div class="col-md-8 form-group">
-						<hr>
+						<div class="col-md-12 form-group">
+							<hr>
 							<label>BreakTime</label>
 							<div>
 								<label class="radio-inline"> <input type="radio"
 									id="bt_true" name="breakTime" value="true"> 있음
 								</label> <label class="radio-inline"> <input type="radio"
-									id="bt_false" name="breakTime" value="false" checked> 없음
+									id="bt_false" name="breakTime" value="false" checked>
+									없음
 								</label>
 							</div>
 						</div>
@@ -54,21 +57,21 @@
 					</div>
 					<!-- .row close -->
 					<div class="row" id="breaktime_input" style="display: none">
-						<div class="col-md-4 ">
+						<div class="col-md-6 ">
 							<div class="input-group">
 								<span class="input-group-addon">START</span> <input type="time"
-									class="form-control" id="input_btst" />
-									<input type="hidden" id="breakTime_start" name="breakTime_start" value=""/>
+									class="form-control" id="input_btst" /> <input type="hidden"
+									id="breakTime_start" name="breakTime_start" value="" />
 							</div>
 							<!--.input-group  -->
 						</div>
 						<!-- col-md-8 -->
 
-						<div class="col-md-4">
+						<div class="col-md-6">
 							<div class="input-group">
 								<span class="input-group-addon">END</span> <input type="time"
-									class="form-control" id="input_bted"/>
-									<input type="hidden" id="breakTime_end" name="breakTime_end" value=""/>
+									class="form-control" id="input_bted" /> <input type="hidden"
+									id="breakTime_end" name="breakTime_end" value="" />
 							</div>
 							<!--.input-group  -->
 						</div>
@@ -77,8 +80,8 @@
 
 					<!-- 휴무일 -->
 					<div class="row">
-						<div class="col-md-8 form-group">
-						<hr>
+						<div class="col-md-12 form-group">
+							<hr>
 							<label for="dayoff">휴무일</label>
 							<div class="input-group" id="dayoff">
 								<select class="form-control" id="dayoff_cate" name="dayoff_cate"
@@ -88,14 +91,16 @@
 									<option value="매주">매주</option>
 								</select> <select class="form-control" id="dayoff_weekCnt"
 									name="dayoff_weekCnt" style="width: 30%" disabled>
+									<option value="-" disabled>-</option>
 									<option value="1">첫째주</option>
 									<option value="2">둘째주</option>
 									<option value="3">셋째주</option>
 									<option value="4">넷째주</option>
-									<option value="1, 3">첫째, 셋째주</option>
-									<option value="2, 4">둘째, 넷째주</option>
+									<option value="13">첫째, 셋째주</option>
+									<option value="24">둘째, 넷째주</option>
 								</select> <select class="form-control" id="dayoff_Day" name="dayoff_Day"
 									style="width: 30%" disabled>
+									<option value="-" disabled>-</option>
 									<option value="월">월요일</option>
 									<option value="화">화요일</option>
 									<option value="수">수요일</option>
@@ -112,8 +117,8 @@
 					<!-- .row close -->
 					<!-- 선불정보 입력란 -->
 					<div class="row">
-						<div class="col-md-8 form-group">
-						<hr>
+						<div class="col-md-12 form-group">
+							<hr>
 							<label for="adPayCheck">예약금 설정
 								<button type="button" class="btn btn-danger btn-circle"
 									id="queBtn">
@@ -135,28 +140,43 @@
 
 					<div class="row" id="adPay_input" style="display: none;">
 						<!-- 선택하면 활성화되는 란 -->
-						<div class="col-md-4">
-							<p>예약금 지불 최소인원 </p>
+						<div class="col-md-6">
+							<p>예약금 지불 최소인원</p>
 							<div class="input-group">
-								<input type="text" class="form-control" name="adPayCond"><span
+								<input type="number" class="form-control" name="adPayCond"><span
 									class="input-group-addon">명</span>
 							</div>
 						</div>
 						<!-- col-md-4 -->
-						<div class="col-md-4">
-							<p>예약금액 </p>
+						<div class="col-md-6">
+							<p>예약금액</p>
 							<div class="input-group">
-								<input type="text" class="form-control" name="adPay"><span
+								<input type="number" class="form-control" name="adPay"><span
 									class="input-group-addon">원</span>
 							</div>
 						</div>
 						<!-- col-md-4 -->
 					</div>
 					<!-- .row close -->
+					<!-- **0918 추가 : 메뉴지정예약선택란 -->
+					<div class="row">
+						<div class="col-md-12 form-group">
+							<hr>
+							<label for="inputMenuRev">메뉴 지정 예약 </label>
+							<div>
+								<input type="hidden" id="menuReserv" name="menuReserv"  value="false"> 
+								<input type="checkbox" id="inputMenuRev" name="menuReserv"  value="true"> 메뉴예약 필요<br>
+								<p>(※ 재료준비, 조리시간 필요 등의 이유로 메뉴별 예약이 필요한 경우 선택해 주세요.)</p>								
+							</div>
+						</div>
+						<!-- col-md-8 -->
+					</div>
+					<!-- .row close -->
 				</div>
 				<!-- panel-body -->
 				<div class="panel-footer">
-					<button type="submit" class="btn btn-primary btn-lg btn-block" id="reginfoBtn">저장하기</button>
+					<button type="submit" class="btn btn-primary btn-lg btn-block"
+						id="reginfoBtn">저장하기</button>
 				</div>
 			</div>
 			<!-- .panel-info-->

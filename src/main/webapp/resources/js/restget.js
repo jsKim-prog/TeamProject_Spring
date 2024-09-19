@@ -49,6 +49,14 @@ $(document).ready(function() {
 	do_dop.prop("defaultSelected", true);
 	console.log("test:"+do_ddata);
 	
+	//**0918추가 : 메뉴지정예약 선택여부에 따라 보이기 */
+	var menuReservVal = $("#menuReserv").val();
+	if(menuReservVal=="true"){
+		$("input[id='inputMenuRev']").attr("checked", true);
+	}else{
+		$("input[id='inputMenuRev']").attr("checked", false);
+	}
+	
 	//브레이크타임 여부에 따라 입력칸 나타내기
 	$("#bt_true").on("click", function() {
 		var inputDiv = $("#breaktime_input");
@@ -84,6 +92,22 @@ $(document).ready(function() {
 			$("#dayoff_Day option[value='월']").prop("selected", true);
 		}
 	});//--$("#dayoff_cate").on("chage")
+	
+	
+	
+	//**0918추가 : 메뉴지정예약 값 처리(체크박스선택값 처리) */
+	$("input[type='checkbox']").on("change", function(e){
+		var checkVal = $(this).is(":checked"); //체크여부(true, false)
+		if(!checkVal){
+			$(this).prev().val('false');
+			console.log($("input[name='menuReserv']").val());
+		}
+				
+		if(checkVal){ //해당 체크박스가 체크상태라면
+			$(this).prev().val('true');	
+			console.log($("input[name='menuReserv']").val());		
+		}
+	});
 	
 	//예약금 설정따라 활성화
 	$("#adPay_true").on("click", function() {

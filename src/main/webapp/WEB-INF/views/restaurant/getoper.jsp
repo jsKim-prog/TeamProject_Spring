@@ -9,14 +9,14 @@
 		<div class="panel-heading">영업정보</div>
 		<div class="panel-body">
 			<!-- 영업시간 입력란 -->
-			<div class="row">
-				<div class="col-md-4 form-group">
+			<div class="row position-relative">
+				<div class="col-md-6 form-group">
 					<label>OPEN</label> <input type="time" class="form-control"
 						id="openTime" name="openTime" value="${oper.openTime}" />
 				</div>
 				<!-- col-md-3 -->
 
-				<div class="col-md-4 form-group">
+				<div class="col-md-6 form-group">
 					<label>CLOSE</label> <input type="time" class="form-control"
 						id="endTime" name="endTime" value="${oper.endTime}" />
 				</div>
@@ -25,7 +25,7 @@
 			<!-- .row close -->
 			<!-- breakTime 입력란 -->
 			<div class="row">
-				<div class="col-md-8 form-group">
+				<div class="col-md-12 form-group">
 					<hr>
 					<label>BreakTime</label>
 					<div>
@@ -41,7 +41,7 @@
 			</div>
 			<!-- .row close -->
 			<div class="row" id="breaktime_input" style="display: none">
-				<div class="col-md-4 ">
+				<div class="col-md-6 ">
 					<div class="input-group">
 						<span class="input-group-addon">START</span> <input type="time"
 							class="form-control" id="breakTime_start" name="breakTime_start"
@@ -51,7 +51,7 @@
 				</div>
 				<!-- col-md-8 -->
 
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<div class="input-group">
 						<span class="input-group-addon">END</span> <input type="time"
 							class="form-control" id="breakTime_end" name="breakTime_end"
@@ -64,7 +64,7 @@
 
 			<!-- 휴무일 -->
 			<div class="row">
-				<div class="col-md-8 form-group">
+				<div class="col-md-12 form-group">
 					<hr>
 					<label for="dayoff">휴무일</label>
 					<div class="input-group" id="dayoff">
@@ -106,7 +106,7 @@
 			<!-- .row close -->
 			<!-- 선불정보 입력란 -->
 			<div class="row">
-				<div class="col-md-8 form-group">
+				<div class="col-md-12 form-group">
 					<hr>
 					<label for="adPayCheck">예약금 설정 <a href="#myModal"
 						class="btn btn-danger btn-circle" id="queBtn" data-toggle="modal">
@@ -129,22 +129,36 @@
 
 			<div class="row" id="adPay_input" style="display: none;">
 				<!-- 선택하면 활성화되는 란 -->
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<p>예약금 지불 최소인원</p>
 					<div class="input-group">
-						<input type="text" class="form-control" name="adPayCond"
+						<input type="number" class="form-control" name="adPayCond"
 							value="${oper.adPayCond}"><span class="input-group-addon">명</span>
 					</div>
 				</div>
 				<!-- col-md-4 -->
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<p>예약금액</p>
 					<div class="input-group">
-						<input type="text" class="form-control" name="adPay"
+						<input type="number" class="form-control" name="adPay"
 							value="${oper.adPay}"><span class="input-group-addon">원</span>
 					</div>
 				</div>
 				<!-- col-md-4 -->
+			</div>
+			<!-- .row close -->
+			<!-- **0918 추가 : 메뉴지정예약선택란 -->
+			<div class="row">
+				<div class="col-md-12 form-group">
+					<hr>
+					<label for="inputMenuRev">메뉴 지정 예약 </label>
+					<div>
+						<input type="hidden" id="menuReserv" name="menuReserv" value="${oper.menuReserv}"> 
+						<input type="checkbox" id="inputMenuRev" name="menuReserv" value="true"> 메뉴예약 필요<br>
+						<p>(※ 재료준비, 조리시간 필요 등의 이유로 메뉴별 예약이 필요한 경우 선택해 주세요.)</p>
+					</div>
+				</div>
+				<!-- col-md-8 -->
 			</div>
 			<!-- .row close -->
 		</div>
