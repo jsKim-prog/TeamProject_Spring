@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
@@ -118,15 +119,25 @@ public class RestaurantController {
 			new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	//메뉴리스트 가져오기
-	@GetMapping(value = "/getmenus/{resNum}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-	public ResponseEntity<MenuPageDTO> getMenuList(@PathVariable("resNum") String resNum){
-		log.info("test 메뉴리스트 가져오기 받은 resNum:"+resNum);
-		return new ResponseEntity<>(serviceMenu.getMenuList(resNum), HttpStatus.OK);
-	} //**get 시 consume 지정-> content type 오류남
+	//메뉴리스트 가져오기 -사용안함
+//	@GetMapping(value = "/getmenus/{resNum}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+//	public ResponseEntity<MenuPageDTO> getMenuList(@PathVariable("resNum") String resNum){
+//		log.info("test 메뉴리스트 가져오기 받은 resNum:"+resNum);
+//		return new ResponseEntity<>(serviceMenu.getMenuList(resNum), HttpStatus.OK);
+//	} //**get 시 consume 지정-> content type 오류남
 	
 
-	
+	//U-기본정보 변경
+	@RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH}, value = "/modrest", consumes = "application/json", produces = {MediaType.TEXT_PLAIN_VALUE})
+	public ResponseEntity<String> modRest(@RequestBody RestaurantVO rest){
+		String resNum = rest.getResNum();
+		log.info("변경할 resnum:"+resNum);
+		boolean result = serviceRest.modify(rest);
+		
+		return result ? new ResponseEntity<>("success", HttpStatus.OK):
+			new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		
+	}
 	
 
 }

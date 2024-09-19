@@ -39,30 +39,30 @@
 					<li id="nonMenu"><a href="#myModal" data-toggle="modal">메뉴관리(미등록)</a></li>
 				</c:when>
 				<c:when test="${menus ne null}">
-					<li><a href="#mymenus" data-toggle="tab">메뉴관리</a></li>
+					<li><a href="#mymenu" data-toggle="tab">메뉴관리</a></li>
 				</c:when>
 			</c:choose>
 		</ul>
 	</div>
-	<!-- resNum 전송위한 hidden -->
+	<!-- 공통 resNum 받기위한 hidden -->
 	<form role="form" name="resnumForm" id="resnumForm" action=""
 		method="get">
-		<input type="hidden" id="rest_resNum" name="resNum"
-			value="${loginResNum}">
+		<input type="hidden" id="resNum" name="resNum" value="${loginResNum}">
 	</form>
 
 	<!-- Tab panes -->
 	<div class="tab-content">
 		<div class="tab-pane fade in active" id="myRest">
 			<div class="col-md-8 col-md-offset-2">
-				<form role="form" id="restForm" method="post"
-					action="/restaurant/register" onsubmit="return valForm(this)">
-					<div class="panel panel-info">
-						<div class="panel-heading">기본정보</div>
-						<!-- .panel-heading -->
-						<div class="panel-body">
+				<div class="panel panel-info">
+					<div class="panel-heading">기본정보</div>
+					<!-- .panel-heading -->
+					<div class="panel-body">
+						<form role="form" id="restForm" method="post" action="/restaurant/modrest">
+							<input type="hidden" id="rest_resNum" name="resNum"
+								value="${loginResNum}">
 							<div class="row" style="width: 90%; margin-left: 20px;">
-								<div class="form-group" id="idDiv">
+								<div class="form-group">
 									<label>아이디</label> <input type="text" class="form-control"
 										id="resID" name="resID" value="${myrest.resID}"
 										readonly="readonly" />
@@ -145,23 +145,22 @@
 								<!-- .form-group close -->
 							</div>
 							<!--.row  -->
-
-						</div>
-
-						<!-- .panel-body -->
-						<div class="panel-footer ">
-							<div class="clearfix" style="text-align: right;">
-								<button type="button" data-oper="modify" class="btn btn-primary"
-									id="modBtn">수정하기</button>
-								<button type="button" data-oper="delete" class="btn btn-default"
-									id="delBtn">회원탈퇴</button>
-							</div>
-							<!-- .right clearfix -->
-						</div>
-						<!-- .panel-footer -->
+						</form>
 					</div>
-					<!--.panel panel-Info  -->
-				</form>
+					<!-- .panel-body -->
+					<div class="panel-footer ">
+						<div class="clearfix" style="text-align: right;">
+							<button data-oper="modify" class="btn btn-primary"
+								id="modRestBtn">수정하기</button>
+							<button data-oper="delete" class="btn btn-default"
+								id="delRestBtn">회원탈퇴</button>
+						</div>
+						<!-- .right clearfix -->
+					</div>
+					<!-- .panel-footer -->
+				</div>
+				<!--.panel panel-Info  -->
+
 			</div>
 			<!-- .col-md-12 -->
 		</div>
@@ -181,46 +180,21 @@
 		<div class="tab-pane fade" id="mysales">
 			<form id="saleForm" method="post" action="restaurant/register"
 				onsubmit="return valForm(this)">
-			 <input type="hidden" name="resNum" id="sales_resNum"
+				<input type="hidden" name="resNum" id="sales_resNum"
 					value="${loginResNum}">
-				<jsp:include page="./gettable.jsp"></jsp:include>	
+				<jsp:include page="./gettable.jsp"></jsp:include>
 			</form>
 		</div>
 		<!--.tab-pane  -->
 
 		<!-- tab: 메뉴관리 여기부터 -->
 		<div class="tab-pane fade" id="mymenu">
-			<div class="col-lg-12">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<i class="fa fa-comments fa-fw"></i>Reply
-						<button id="addReplyBtn" class="btn btn-primary btn-xs pull-right">메뉴
-							추가</button>
-					</div>
-					<!--panel-heading  -->
-					<div class="panel-body">
-						<ul class="chat">
-							<li class='left clearfix' data-mno="${menus[i].menuNum}">
-								<div>
-									<div class='header'>
-										<strong class='primary-font'>${menus[i].menuName}</strong> <small
-											class='pull-right text-muted'>${menus[i].serving}</small>
-									</div>
-									<p>${menus[i].unitCost}</p>
-									<p>${menus[i].menuAcoount}</p>
-								</div>
-							</li>
-						</ul>
-					</div>
-					<!--panel-body  -->
-					<div class="panel-footer">
-						<!-- reply paging -->
-					</div>
-					<!--.panel-footer  -->
-				</div>
-				<!--panel panel-default  -->
-			</div>
-			<!-- .col-lg-12 -->
+			<form id="menuForm" method="post" action="restaurant/register"
+				onsubmit="return valForm(this)">
+				<input type="hidden" name="resNum" id="menu_resNum"
+					value="${loginResNum}">
+				<jsp:include page="./getmenulist.jsp"></jsp:include>
+			</form>
 		</div>
 		<!--.tab-pane  -->
 	</div>

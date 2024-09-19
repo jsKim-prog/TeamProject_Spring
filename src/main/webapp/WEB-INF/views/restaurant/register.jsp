@@ -25,10 +25,10 @@
 				<div class="panel-body">
 
 					<div class="row" style="width: 90%; margin-left: 20px;">
-						<div class="form-group" id="idDiv">
-							<label>아이디</label> <input type="text" class="form-control"
-								id="resID" name="resID"
-								placeholder="아이디를 입력하세요.(영문, 숫자포함 5~10자)" />
+						<div class="form-group ">
+							<label>아이디</label><div class="input-group"> <input type="text" class="form-control"
+								id="resID" name="resID" placeholder="아이디를 입력하세요.(영문, 숫자포함 5~10자)" />
+								<span class="input-group-btn" ><a class="btn btn-warning" id="dupleCheck" data-value="0">중복확인</a></span></div>
 						</div>
 						<!-- .row close -->
 					</div>

@@ -62,17 +62,30 @@ function valForm(form) {
 		alert("사업자번호를 체크하세요.");
 		return false;
 	}
+	
+	//중복확인 체크
+	var checkID = $("#dupleCheck").data("value");
+	if(checkID===1){
+		alert("다른 아이디로 중복체크를 진행하세요.");
+		return false;
+	}
+	if(checkID===0){
+		alert("아이디 중복확인을 클릭하세요.");
+		return false;
+	}
 
 } //--valForm(form)
 
 $(document).ready(function() {
-	let cloneObj = $("#idDiv").clone(); //초기화용 복사객체
+	//let cloneObj = $("#idDiv").clone(); //초기화용 복사객체
+	let checkBtn = $("#dupleCheck");
+	let btnTag = $("a[id='dupleCheck']");
 
-	$("#resID").on("blur", function() {
+	//아이디 중복확인
+	checkBtn.on("click", function(){
 		var resID = $("#resID").val();
 		var voData = { "resID": resID };
-		//console.log(voData); 
-
+		btnTag.data("value", "1"); //클릭시 1
 		$.ajax({
 			url: '/restaurant/idcheck',
 			type: 'post',
@@ -82,15 +95,17 @@ $(document).ready(function() {
 				console.log("중복체크 결과:" + result);
 				if (result === "true") {
 					alert(resID + " 는 사용가능한 아이디 입니다.");
+					btnTag.data("value", "2"); //완료시 2
 					return;
 				} else {
 					alert(resID + "는 사용중인 아이디입니다. 다른 아이디를 입력하세요.");
-					$("#idDiv").html(cloneObj.html()); //아이디칸 초기화
+					btnTag.data("value", "1"); //실패시 1
 					return;
 				}
 			}
 		});//--ajax
-	});//아이디 중복체크
+	});
+	
 
 	// 전화번호 합치기
 	$("#phone_f").on("propertychange change paste input", function(){

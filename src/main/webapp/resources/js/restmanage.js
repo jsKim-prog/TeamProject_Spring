@@ -28,7 +28,7 @@ $(document).ready(function() {
 	var modalBtn = $("#modalRegBtn");
 
 	//var resnumForm = $("#resnumForm");
-	var resNum = $("#rest_resNum").val();
+	//var resNum = $("#rest_resNum").val();
 	var mtitle = $(".modal-title");
 	var mbody = $(".modal-body ul");
 	var mbodyStr ="";
@@ -56,9 +56,41 @@ $(document).ready(function() {
 		mtitle.html("Happy Table");
 		mbody.html(mbodyStr);
 		modalBtn.show();
-		modalBtn.attr("onclick", "location.href = '/restaurant/regmenu'")
+		modalBtn.attr("onclick", "location.href = '/restaurant/menulist'")
 	});
 	
+	
+	//기본정보 - 변경하기	
+	console.log(restData);
+	$("#modRestBtn").on("click", function(e){
+		e.preventDefault(); //Rest->ajax
+		var restForm = $("#restForm");
+		var restData = new FormData(restForm);
+		console.log(restData);
+		modRest(restData, function(result){
+			console.log(result);
+		});
+	});
 
 	
 }); //--$(document).ready
+
+//레스토랑 수정 함수
+function modRest(restData, callback, error){
+	console.log("test: modify ajax 실행----");
+	console.log("test:"+restData.resNum);
+	$.ajax({
+			url: '/restaurant/modrest',
+			type: 'put',
+			data: JSON.stringify(restData),
+			contentType:'application/json; charset=utf-8',
+			success: function(result, status, xhr){
+				if(callback){
+					callback(result);
+				}				
+			},
+			error: function(xhr, status, er){
+				if(error){error(er);}
+			}
+		}); //--ajax
+}

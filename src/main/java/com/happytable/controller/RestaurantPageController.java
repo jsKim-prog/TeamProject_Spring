@@ -2,20 +2,18 @@ package com.happytable.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.happytable.domain.MenuPageDTO;
 import com.happytable.domain.MenuVO;
 import com.happytable.domain.OperationsVO;
 import com.happytable.domain.RestaurantVO;
@@ -158,10 +156,26 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		return "redirect:/restaurant/myrestaurant";
 	}
 
-	// 메뉴등록 페이지
-	@GetMapping("/regmenu") // http://localhost/restaurant/reginfo
+	// 메뉴등록 페이지(리스트)
+	@GetMapping("/menulist") // http://localhost/restaurant/menulist
+	public void menulist(@ModelAttribute("loginResNum")String resNum, Model model) {
+		log.info("메뉴리스트 get() 실행-------"+resNum);
+		MenuPageDTO menus = serviceMenu.getMenuList(resNum);
+		model.addAttribute("menus", menus.getMenus());
+		model.addAttribute("menuCnt", menus.getMenuCnt());
+	}
+	
+	//메뉴등록 페이지(단일메뉴) -페이지 연결
+	@GetMapping("/regmenu")
 	public void regmenu() {
-		log.info("메뉴등록 get() 실행-------");
+		log.info("단일메뉴등록 get() 실행-------");
+	}
+	
+	//메뉴 상세보기 페이지
+	@GetMapping("/getmenu")
+	public void getmenu(@RequestParam("menuNum") int menuNum, Model model) {
+		log.info("메뉴상세보기 실행-------"+menuNum);
+		model.addAttribute("menu", serviceMenu.get(menuNum));
 	}
 
 }
