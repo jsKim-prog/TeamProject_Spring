@@ -6,8 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.happytable.domain.MenuPageDTO;
 import com.happytable.domain.MenuVO;
 import com.happytable.domain.RestaurantVO;
+import com.happytable.domain.SalesPageDTO;
 import com.happytable.domain.SalesVO;
 import com.happytable.service.MenuService;
 import com.happytable.service.OperationsService;
@@ -108,6 +111,15 @@ public class RestaurantController {
 		
 	}
 	
+	//테이블 등록(건별-수정페이지에서)
+	@PostMapping(value = "/regonetable", consumes = "application/json", produces = MediaType.TEXT_PLAIN_VALUE)
+	public ResponseEntity<String> regOneTable(@RequestBody SalesVO table){
+		log.info("test 받은 data:"+ table);
+		int result =  serviceSal.register(table);
+		return result==1 ? new ResponseEntity<>("success", HttpStatus.OK) :
+			new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
 	//메뉴등록
 	@PostMapping(value = "/newmenu", consumes = "application/json", produces = MediaType.TEXT_PLAIN_VALUE)
 	public ResponseEntity<String> menuAjaxReg(@RequestBody MenuVO menu){
@@ -128,7 +140,7 @@ public class RestaurantController {
 	
 
 	//U-기본정보 변경
-	@RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH}, value = "/modrest", consumes = "application/json", produces = {MediaType.TEXT_PLAIN_VALUE})
+	@RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH}, value = "/modrestAjax", consumes = "application/json", produces = {MediaType.TEXT_PLAIN_VALUE})
 	public ResponseEntity<String> modRest(@RequestBody RestaurantVO rest){
 		String resNum = rest.getResNum();
 		log.info("변경할 resnum:"+resNum);
@@ -138,6 +150,69 @@ public class RestaurantController {
 			new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		
 	}
+	
+	//U-테이블 정보 변경
+	@RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH}, value = "/restaurant/modtables", consumes = "application/json", produces = {MediaType.TEXT_PLAIN_VALUE})
+	public ResponseEntity<String> modTables(@RequestBody List<SalesVO> tables){
+		log.info("test 받은 list data:"+ tables);
+		int modCnt = 0; //변경개수
+		int total = tables.size(); //리스트 전체 개수
+		
+		for(SalesVO table:tables) { //리스트 순회하면서 객체별로 db등록
+			 int result = serviceSal.modify(table);
+			if(result>0) {
+				modCnt += result;
+			}else {
+			}			
+		} //--for()
+		log.info("---변경개수 : "+ modCnt+" / 리스트개수:"+ total);
+		if(total==modCnt) { //전체 등록성공
+			return new ResponseEntity<>("success", HttpStatus.OK);
+			
+		}else {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	//D-테이블 삭제(단일테이블 삭제)
+	@DeleteMapping(value = "/restaurant/deltable", produces = {MediaType.TEXT_PLAIN_VALUE})
+	public ResponseEntity<String> delTable(@RequestBody SalesVO table){
+		log.info("test 삭제할 테이블 :"+ table);
+		int result=serviceSal.remove(table.getResNum(), table.getTableNum());
+		
+		return result==1? new ResponseEntity<>("success", HttpStatus.OK):
+			new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	//D-테이블 일괄삭제
+	@DeleteMapping(value = "/restaurant/delall/{resNum}",  produces = {MediaType.TEXT_PLAIN_VALUE})
+	public ResponseEntity<Integer> delTableAll(@PathVariable("resNum") String resNum){
+		log.info("test 전체삭제할 테이블resNum :"+ resNum);
+		int originCnt = serviceSal.countTable(resNum);
+		Integer cnt= serviceSal.removeAll(resNum);
+		if(cnt.equals(originCnt)) {
+			//rttr.addFlashAttribute("delTableCnt", cnt);
+			return new ResponseEntity<>(cnt, HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	//R-테이블 리스트 불러오기
+	@GetMapping(value = "/gettables/{resNum}", produces = {MediaType.APPLICATION_JSON_VALUE})
+	public ResponseEntity<SalesPageDTO> getTableList(@PathVariable("resNum") String resNum){
+		log.info("test 리스트 읽어올 resNum :"+ resNum);
+		return new ResponseEntity<>(serviceSal.getTableList(resNum), HttpStatus.OK);
+	}
+	
+	//R-단일 테이블 불러오기
+	@GetMapping(value = "/getonetable/{resNum}/{tableNum}", produces = {MediaType.APPLICATION_JSON_VALUE})
+	public ResponseEntity<SalesVO> getTable(@PathVariable("resNum") String resNum, @PathVariable("tableNum") int tableNum){
+		log.info("test 읽어올 resNum/tableNum :"+ resNum + "/"+tableNum);
+		return new ResponseEntity<>(serviceSal.get(resNum, tableNum), HttpStatus.OK);
+	}
+	
+	
 	
 
 }

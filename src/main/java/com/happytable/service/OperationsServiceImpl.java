@@ -40,10 +40,14 @@ public class OperationsServiceImpl implements OperationsService{
 		return mappop.update(oper) ==1;
 	}
 
+	@Transactional
 	@Override
 	public boolean remove(String resNum) {
 		log.info("OperationsServiceImpl.remove() 서비스 실행.....");
-		return mappop.delete(resNum)==1;
+		int cnt = mappop.delete(resNum);
+		int cntOper=mappop.checkOper(resNum);
+		int restCnt = mappRest.updateOperCnt(resNum, cntOper);
+		return cnt==restCnt;
 	}
 
 	@Override

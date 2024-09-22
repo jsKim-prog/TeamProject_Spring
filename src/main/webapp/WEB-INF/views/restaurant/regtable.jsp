@@ -32,8 +32,8 @@
 						</tr>
 					</thead>
 					<tbody id="table-body">
-						<tr id="tr1">
-							<td><input class="form-control" name="tableNum" type="number" value="1" readonly="readonly"></td>
+						<tr>
+							<td><input class="index form-control" type="number" value="" readonly="readonly"></td>
 							<td>
 							<select class="form-control" name="tableType">
 							<option value="room">룸타입</option>
@@ -42,7 +42,7 @@
 							</td>
 							<td><div class="input-group">
 							<input class="form-control"  type="number" name="headCount" value="0"/><span class="input-group-addon">명</span></div></td>
-							<td><input id="delBtn1" class="delbtn btn btn-default btn-sm"  value="삭제" onclick="deleteTR(1)" style="width: 60%">
+							<td><input  class="delbtn btn btn-default btn-sm"  value="삭제" onclick="" style="width: 50%">
 							</td>
 						</tr>
 					</tbody>
@@ -60,8 +60,7 @@
 	</div>
 	<!-- .col-md-12 close -->
 </form>
-</div>
-<!-- .row -->
+</div><!-- .row -->
 <!-- resnum 전송위한 hidden -->
 <input type="hidden" id="sales_resNum" name="resNum" value="${loginResNum}">
 <script type="text/javascript" src="/resources/js/restregtable.js"></script>

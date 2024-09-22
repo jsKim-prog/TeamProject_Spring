@@ -43,6 +43,7 @@ public class RestaurantMapperTests {
 		vo.setCo_Num("111-11-11111");
 		vo.setSummary("테스트용식당, 맛은 보장 못하는데요.");
 		vo.setCertify("");
+		vo.setResPhone("010-123-4567");
 		
 		int result = mapper.insert(vo);
 		log.info("등록결과 : "+result); //등록결과 : 1
@@ -56,7 +57,7 @@ public class RestaurantMapperTests {
 	
 	@Test
 	public void testUpdate() {
-		RestaurantVO vo = mapper.readByResnum("10000002tes");
+		RestaurantVO vo = mapper.readByResnum("10000046aaa");
 		vo.setResName("테스트식당 수정");
 		int rst = mapper.update(vo);
 		log.info("수정결과:" + rst); //수정결과:1

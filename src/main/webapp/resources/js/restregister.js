@@ -23,26 +23,26 @@ function valForm(form) {
 		return false;
 	}
 
-	if (!form.resAddr.value) {
+	if (!form.phone_f.value) {
 		alert("전화번호 앞자리를 입력하세요.");
 		return false;
 	}
 
-	if (!form.resAddr.value) {
+	if (!form.phone_m.value) {
 		alert("전화번호 중간자리를 입력하세요.");
 		return false;
 	}
 
-	if (!form.resAddr.value) {
+	if (!form.phone_l.value) {
 		alert("전화번호 뒷자리를 입력하세요.");
 		return false;
 	}
-	if (!form.resAddr.value) {
+	if (!form.conum_f.value) {
 		alert("사업자번호 앞자리를 입력하세요.");
 		return false;
 	}
 
-	if (!form.resAddr.value) {
+	if (!form.conum_m.value) {
 		alert("사업자번호 중간자리를 입력하세요.");
 		return false;
 	}
@@ -84,6 +84,10 @@ $(document).ready(function() {
 	//아이디 중복확인
 	checkBtn.on("click", function(){
 		var resID = $("#resID").val();
+		if(resID==null || resID==''){
+			alert("아이디를 입력하세요.");
+			return;
+		}
 		var voData = { "resID": resID };
 		btnTag.data("value", "1"); //클릭시 1
 		$.ajax({
@@ -108,53 +112,20 @@ $(document).ready(function() {
 	
 
 	// 전화번호 합치기
-	$("#phone_f").on("propertychange change paste input", function(){
-		var frontN = $("#phone_f").val();
-		var midN = $("#phone_m").val();
-		var lastN = $("#phone_l").val();
-		var resPhone = frontN + "-" + midN + "-" + lastN;
+	var divNum = $("input[name='divNum']");
+	divNum.on("propertychange change paste input", function(e) {
+		var frontpN = $("#phone_f").val();
+		var midpN = $("#phone_m").val();
+		var lastpN = $("#phone_l").val();
+		var frontcN = $("#conum_f").val();
+		var midcN = $("#conum_m").val();
+		var lastcN = $("#conum_l").val();
+		var resPhone = frontpN + "-" + midpN + "-" + lastpN;
+		var resCoNum = frontcN + "-" + midcN + "-" + lastcN;
 		$("#resPhone").val(resPhone);
-	});
-	
-		$("#phone_m").on("propertychange change paste input", function(){
-		var frontN = $("#phone_f").val();
-		var midN = $("#phone_m").val();
-		var lastN = $("#phone_l").val();
-		var resPhone = frontN + "-" + midN + "-" + lastN;
-		$("#resPhone").val(resPhone);
-	});
-	
-		$("#phone_l").on("propertychange change paste input", function(){
-		var frontN = $("#phone_f").val();
-		var midN = $("#phone_m").val();
-		var lastN = $("#phone_l").val();
-		var resPhone = frontN + "-" + midN + "-" + lastN;
-		$("#resPhone").val(resPhone);
-	});
-	
-	//사업자번호 합치기
-	$("#conum_f").on("propertychange change paste input", function(){
-		var frontN = $("#conum_f").val();
-		var midN = $("#conum_m").val();
-		var lastN = $("#conum_l").val();
-		var resPhone = frontN + "-" + midN + "-" + lastN;
-		$("#co_Num").val(resPhone);
-	});
-	
-		$("#conum_m").on("propertychange change paste input", function(){
-		var frontN = $("#conum_f").val();
-		var midN = $("#conum_m").val();
-		var lastN = $("#conum_l").val();
-		var resPhone = frontN + "-" + midN + "-" + lastN;
-		$("#co_Num").val(resPhone);
-	});
-	
-		$("#conum_l").on("propertychange change paste input", function(){
-		var frontN = $("#conum_f").val();
-		var midN = $("#conum_m").val();
-		var lastN = $("#conum_l").val();
-		var resPhone = frontN + "-" + midN + "-" + lastN;
-		$("#co_Num").val(resPhone);
+		$("#co_Num").val(resCoNum);
+		console.log("test:" + resCoNum);
+		console.log("test:" + resPhone);
 	});
 	
 	
