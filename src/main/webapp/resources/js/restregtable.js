@@ -51,7 +51,7 @@ $(document).ready(function() {
 	$("#submitBtn").on("click", function(e) {
 		e.preventDefault();
 		var form = $("form[id='regiTableForm']");
-		makenewFormList(form);
+		dataSet.makenewFormList(form);
 		var tables = $("#tables").val();
 		tbService.addList(tables, function(result) {
 			if (result == "success") { //등록성공->url 전환
@@ -66,7 +66,7 @@ $(document).ready(function() {
 	$("#modtableBtn").on("click", function(e) {
 		e.preventDefault();
 		var form = $("form[id='saleForm']");
-		makeFormList(form);
+		dataSet.makeFormList(form);
 		var tables = $("#tables").val();
 		tbService.modAll(tables, function(result) {
 			if (result == "success") { //등록성공->url 전환
@@ -75,6 +75,48 @@ $(document).ready(function() {
 				alert("등록오류. 관리자에게 문의하세요.");
 			}
 		});
+	});
+
+	//modal
+	var tbmodal = $("#tableModal");
+	var tbmodalTitle = $("#tableModalLabel");
+	var tbmodalbody = tbmodal.find(".modal-body").find("ul");
+	var delAllBtn = $("#tb_delallBtn");
+	var delOneBtn = $("#tb_delBtn");
+
+	//일괄삭제
+	$("#deltableBtn").on("click", function(e) {
+		e.preventDefault();
+		var mbodyStr = "<p>정말 삭제하시겠습나까?</p>"
+			+ "<p>일괄삭제 후 미등록상태로 되돌아갑니다.</p>"
+		tbmodalTitle.html("일괄삭제 확인");
+		tbmodalbody.html(mbodyStr);
+		delOneBtn.css("display", "none");
+		tbmodal.modal("show");
+	});
+
+	delAllBtn.on("click", function() {
+		console.log("test:일괄삭제 실행");
+		var resNum = $("#sales_resNum").val();
+		tbService.delAll(resNum, function(delresult) {
+			tbmodal.modal("hide");
+			alert(delresult + "개의 테이블이 삭제되었습니다.");
+			location.reload();
+		});
+	});
+
+	delOneBtn.on("click", function() {
+		console.log("test: 단일행 삭제 실행");
+		var targetnum = $("#target").val();
+		var table = dataSet.makedelObj(targetnum);
+		console.log("test: " + table);
+		tbService.delOne(table, function(deloneresult) {
+			console.log("test: " + deloneresult);
+			tbmodal.modal("hide");
+			alert("삭제완료");
+			deleteTR(targetnum);
+		});
+
 	});
 
 
@@ -124,24 +166,25 @@ function deleteTR(num) {
 
 //삭제버튼 클릭시(get)
 function delTableTR(num) {
-	var targetid = "tr" + num;
-	var target = $("tr[id=" + targetid + "]");
+	var targetnum = num;
+	var tbmodal = $("#tableModal");
+	var tbmodalTitle = $("#tableModalLabel");
+	var tbmodalbody = tbmodal.find(".modal-body").find("ul");
+	var delAllBtn = $("#tb_delallBtn");
+	//var delOneBtn = $("#tb_delBtn");
+	var mbodyStr = "<p>정말 삭제하시겠습나까?</p>"
+		+ "<p>삭제 한 내용은 복구가 불가능합니다.</p>"
+		+ "<input type=hidden id='target' value='" + targetnum + "'>"
+	tbmodalTitle.html("삭제 확인");
+	tbmodalbody.html(mbodyStr);
+	delAllBtn.css("display", "none");
+	tbmodal.modal("show");
 }
 
 
 //등록버튼 클릭시(객체별 등록)
 function insertTR(num) {
-	var targetid = "tr" + num;
-	var target = $("tr[id=" + targetid + "]");
-	var resNum = $("#sales_resNum").val();
-	var tableType = $(target).find("select[name='tableType']").val();
-	var headCount = $(target).find("input[name='headCount']").val();
-	var table = {
-		resNum: resNum,
-		tableType: tableType,
-		headCount: headCount
-	};
-
+	var table = dataSet.makenewObj(num);
 	tbService.insertOne(table, function(result) {
 		if (result == "success") { //변경성공->alert
 			alert("등록성공");
@@ -153,52 +196,9 @@ function insertTR(num) {
 
 }
 
-//formdata 생성-리스트 생성(변경용)
-function makeFormList(form) {
-	var jsonArr = [];
-	var trCnt = $("#table-body tr").length; //추가된 줄개수
-	var resNum = $("#sales_resNum").val(); //resNum : 공통
-	if (trCnt > 0) {
-		$("#table-body tr").each(function() { //행별 순회
-			var table = {};
-			table.resNum = resNum;
-			table.tableNum = $(this).find("input[name='tableNum']").val();
-			table.tableType = $(this).find("select[name='tableType']").val();
-			table.headCount = $(this).find("input[name='headCount']").val();
-			jsonArr.push(table);
-		});
-		console.log("test: " + JSON.stringify(jsonArr));
-		$("#tables").val(JSON.stringify(jsonArr));
-
-	} else {
-		$("#tables").val("");
-	}
-}
-
-//formdata 생성-리스트 생성(등록용)
-function makenewFormList(form) {
-	var jsonArr = [];
-	var trCnt = $("#table-body tr").length; //추가된 줄개수
-	var resNum = $("#sales_resNum").val(); //resNum : 공통
-	if (trCnt > 0) {
-		$("#table-body tr").each(function() { //행별 순회
-			var table = {};
-			table.resNum = resNum;
-			table.tableType = $(this).find("select[name='tableType']").val();
-			table.headCount = $(this).find("input[name='headCount']").val();
-			jsonArr.push(table);
-		});
-		console.log("test: " + JSON.stringify(jsonArr));
-		$("#tables").val(JSON.stringify(jsonArr));
-
-	} else {
-		$("#tables").val("");
-	}
-}
-
-
 function showTables() {
 	var resNum = $("#sales_resNum").val(); //resNum : 공통
+	console.log("showtable실행")
 	tbService.getTables(resNum, function(tableCnt, tables) {
 		if (tableCnt != 0) {
 			var str = "";
@@ -214,18 +214,107 @@ function showTables() {
 				str += "<td><input  class='delbtn btn btn-default btn-sm' value='삭제' onclick='' style='width: 50%'>";
 				str += "</td></tr>";
 			}//--for()
-			$("#table-body").html(str);
+			var insertArea = $("#table-body").find("tr").find("input:contains('tableNum')");
+			insertArea.html(str);
 			var trCount = $("#table-body tr").length;
 			changeVrNum(trCount);
-		}else{
+		} else {
 			$("#table-body").html("");
 			return;
 		}
-		
+
 	});
 }
 
 
+//json만들기 서비스 모음
+var dataSet = (function() {
+	//formdata 생성-리스트 생성(변경용)
+	function makeFormList(form) {
+		var jsonArr = [];
+		var trCnt = $("#table-body tr").length; //추가된 줄개수
+		var resNum = $("#sales_resNum").val(); //resNum : 공통
+		if (trCnt > 0) {
+			$("#table-body tr").each(function() { //행별 순회
+				var table = {};
+				table.resNum = resNum;
+				table.tableNum = $(this).find("input[name='tableNum']").val();
+				table.tableType = $(this).find("select[name='tableType']").val();
+				table.headCount = $(this).find("input[name='headCount']").val();
+				jsonArr.push(table);
+			});
+			console.log("test: " + JSON.stringify(jsonArr));
+			$("#tables").val(JSON.stringify(jsonArr));
+
+		} else {
+			$("#tables").val("");
+		}
+	}
+
+	//formdata 생성-리스트 생성(등록용)
+	function makenewFormList(form) {
+		var jsonArr = [];
+		var trCnt = $("#table-body tr").length; //추가된 줄개수
+		var resNum = $("#sales_resNum").val(); //resNum : 공통
+		if (trCnt > 0) {
+			$("#table-body tr").each(function() { //행별 순회
+				var table = {};
+				table.resNum = resNum;
+				table.tableType = $(this).find("select[name='tableType']").val();
+				table.headCount = $(this).find("input[name='headCount']").val();
+				jsonArr.push(table);
+			});
+			console.log("test: " + JSON.stringify(jsonArr));
+			$("#tables").val(JSON.stringify(jsonArr));
+
+		} else {
+			$("#tables").val("");
+		}
+	}
+
+	//formdata 생성-단일행 등록(객체)
+	function makenewObj(num) {
+		var targetid = "tr" + num;
+		var target = $("tr[id=" + targetid + "]");
+		var resNum = $("#sales_resNum").val();
+		var tableType = $(target).find("select[name='tableType']").val();
+		var headCount = $(target).find("input[name='headCount']").val();
+		var table = {
+			resNum: resNum,
+			tableType: tableType,
+			headCount: headCount
+		};
+		return table;
+	}
+
+	//formdata 생성-단일행 등록(객체)
+	function makedelObj(num) {
+		var targetid = "tr" + num;
+		var target = $("tr[id=" + targetid + "]");
+		var resNum = $("#sales_resNum").val();
+		var tableType = $(target).find("select[name='tableType']").val();
+		var headCount = $(target).find("input[name='headCount']").val();
+		var tableNum = $(target).find("input[name='tableNum']").val();
+		var table = {
+			resNum: resNum,
+			tableType: tableType,
+			headCount: headCount,
+			tableNum: tableNum
+		};
+		return table;
+	}
+	
+	return{
+		makeFormList:makeFormList,
+		makenewFormList:makenewFormList,
+		makenewObj:makenewObj,
+		makedelObj:makedelObj
+	};
+})();
+
+
+
+//-----------------------ajax
 //db서비스 모음
 var tbService = (function() {
 	//전체등록(리스트)
@@ -296,16 +385,16 @@ var tbService = (function() {
 
 	//단일행 삭제
 	function delOne(table, callback, error) {
-		console.log("test: " + tables);
+		console.log("test: " + table);
 		$.ajax({
 			url: '/restaurant/deltable',
 			type: 'delete',
-			data: tables,
+			data: JSON.stringify(table),
 			contentType: "application/json; charset=utf-8",
-			success: function(delresult) {
-				console.log(delresult);
+			success: function(deloneresult) {
+				console.log(deloneresult);
 				if (callback) {
-					callback(delresult);
+					callback(deloneresult);
 				}
 			},
 			error: function(xhr, status, err) {
@@ -322,8 +411,6 @@ var tbService = (function() {
 		$.ajax({
 			url: '/restaurant/delall/' + resNum,
 			type: 'delete',
-			data: tables,
-			contentType: "application/json; charset=utf-8",
 			success: function(delresult) {
 				console.log(delresult);
 				if (callback) {

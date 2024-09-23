@@ -179,20 +179,20 @@ public class RestaurantController {
 	public ResponseEntity<String> delTable(@RequestBody SalesVO table){
 		log.info("test 삭제할 테이블 :"+ table);
 		int result=serviceSal.remove(table.getResNum(), table.getTableNum());
-		
+		log.info("test 삭제 테이블 개수 :"+ result);
 		return result==1? new ResponseEntity<>("success", HttpStatus.OK):
 			new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	//D-테이블 일괄삭제
 	@DeleteMapping(value = "/restaurant/delall/{resNum}",  produces = {MediaType.TEXT_PLAIN_VALUE})
-	public ResponseEntity<Integer> delTableAll(@PathVariable("resNum") String resNum){
+	public ResponseEntity<String> delTableAll(@PathVariable("resNum") String resNum){
 		log.info("test 전체삭제할 테이블resNum :"+ resNum);
 		int originCnt = serviceSal.countTable(resNum);
-		Integer cnt= serviceSal.removeAll(resNum);
-		if(cnt.equals(originCnt)) {
+		int cnt= serviceSal.removeAll(resNum);
+		if(cnt==originCnt) {
 			//rttr.addFlashAttribute("delTableCnt", cnt);
-			return new ResponseEntity<>(cnt, HttpStatus.OK);
+			return new ResponseEntity<>(cnt+"", HttpStatus.OK);
 		}else {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}

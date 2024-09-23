@@ -59,22 +59,22 @@
 </form>
 
 <!-- Modal -->
-<div class="tb_modal fade" id="tableModal" tabindex="-1" role="dialog"
+<div class="modal fade" id="tableModal" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="tb_modal-dialog">
-		<div class="tb_modal-content">
-			<div class="tb_modal-header">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
-				<h4 class="tb_modal-title" id="tableModalLabel">Happy Table</h4>
+				<h4 class="modal-title" id="tableModalLabel">Happy Table</h4>
 			</div>
-			<div class="tb_modal-body">
+			<div class="modal-body">
 				<ul></ul>
 			</div>
-			<div class="tb_modal-footer">
-				<button type="button" class="btn btn-success" id="tb_modalRegBtn">등록하러
-					가기</button>
-				<button type="button" class="btn btn-default" data-dismiss="tb_modal">Close</button>
+			<div class="modal-footer">
+			<button data-oper="deleteone" class="btn btn-success" id="tb_delBtn">삭제하기</button>
+				<button data-oper="deleteall" class="btn btn-success" id="tb_delallBtn">삭제하기</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
 			</div>
 		</div>
 		<!-- /.modal-content -->
