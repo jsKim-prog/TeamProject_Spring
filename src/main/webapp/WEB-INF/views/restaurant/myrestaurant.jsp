@@ -172,11 +172,8 @@
 
 		<!-- tab: 메뉴관리 여기부터 -->
 		<div class="tab-pane fade" id="mymenu">
-			<form id="menuForm" method="post" action="restaurant/register" >
-				<input type="hidden" name="resNum" id="menu_resNum" value="${loginResNum}">
 				<c:if test="${menus ne null}">
-				<jsp:include page="./getmenulist.jsp"></jsp:include></c:if>
-			</form>
+				<jsp:include page="./getmenufilelist.jsp"></jsp:include></c:if>
 		</div>
 		<!--.tab-pane  -->
 	</div>

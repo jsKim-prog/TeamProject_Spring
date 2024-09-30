@@ -116,6 +116,25 @@ alter table tb_menu modify menuAcoount varchar2(200);
 alter table tb_menu modify mainIngredient varchar2(200);
 alter table tb_menu modify menuImg varchar2(200);
 
+---------------------------- tb_menuimage : 메뉴이미지 관리테이블
+create table tb_menuimg(
+resNum varchar2(20),
+menuNum number(10) primary key,
+originName varchar2(100),
+saveName varchar2(100), 
+folderName varchar2(100),
+uuid varchar2(100),
+regdate Date default sysdate,
+moddate Date default sysdate
+);
+
+alter table tb_menuimg add constraint meimg_resnum_fk foreign key (resNum) references tb_restaurant (resNum);
+alter table tb_menuimg add constraint meimg_menunum_fk foreign key (menuNum) references tb_menu (menuNum) on delete cascade;
+alter table tb_menuimg add moddate Date default sysdate;
+
+select * from tb_menuimg;
+
+---drop table tb_menuimg;
 ------------------------------------------test용 영역
 SELECT DECODE(TO_CHAR(TRUNC(sysdate,'MONTH'), 'D'), 7,TRUNC(sysdate,'MONTH'), NEXT_DAY(TRUNC(sysdate,'MONTH'),'토')) FIRST, DECODE(TO_CHAR(TRUNC(sysdate,'MONTH'), 'D'), 7,TRUNC(sysdate,'MONTH')+14, NEXT_DAY(TRUNC(sysdate,'MONTH'),'토')+14) THIRD FROM dual;
 --매월 1, 3주 토요일 휴무계산-가로 출력

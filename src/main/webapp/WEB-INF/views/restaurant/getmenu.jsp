@@ -18,9 +18,9 @@
 		<div class="panel panel-info">
 			<div class="panel-heading">My Menu</div>
 			<!-- .panel-heading -->
+			<form id="menumodForm" method="post" action="/restaurant/modmenu" >		
 			<div class="panel-body">
 				<!-- resnum 전송위한 hidden -->
-				<form action="">
 					<input type="hidden" id="menu_resNum" name="resNum"
 						value="${loginResNum}"> <input type="hidden"
 						id="menu_menuNum" name="menuNum" value="${menu.menuNum}">
@@ -77,17 +77,18 @@
 						</div>
 					</div>
 					<!--.row  -->
-				</form>
 			</div>
 			<!-- .panel-body -->
 			<div class="panel-footer">
 				<div class="clearfix" style="text-align: right;">
-					<button type="button" class="btn btn-primary" id="modoperBtn">수정하기</button>
-					<button type="button" class="btn btn-default" id="deloperBtn">삭제하기</button>
+					<button data-oper="menumodify"  class="getbtn btn btn-primary" >수정하기</button>
+					<button data-oper="menudelete" class="getbtn btn btn-default" >삭제하기</button>
+					<button data-oper="menulist" class="getbtn btn btn-default" >리스트보기</button>
 				</div>
 				<!-- .right clearfix -->
 			</div>
 			<!-- .panel-footer -->
+			</form>
 		</div>
 		<!--.panel panel-Info  -->
 	</div>

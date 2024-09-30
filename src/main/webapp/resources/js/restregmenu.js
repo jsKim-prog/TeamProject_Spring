@@ -1,5 +1,5 @@
 /**
- * restregmenu.js -> regmenu.jsp
+ * restregmenu.js -> regmenu.jsp, getmenu.jsp
  */
 
 $(document).ready(function() {
@@ -37,6 +37,25 @@ $(document).ready(function() {
 			}
 		});
 	});
+	
+	$(".getbtn").on("click", function(e){
+		var form = $("#menumodForm");
+		e.preventDefault();
+		var oper = $(this).data("oper");
+		console.log(oper);
+		if(oper === 'menumodify'){
+			form.attr("action", "/restaurant/modmenu");
+		}else if(oper==='menudelete'){
+			form.attr("action", "/restaurant/delmenu");
+		}else{
+			form.attr("action", "/restaurant/myrestaurant").attr("method", "get");
+			form.empty();
+			
+		}
+		
+		form.submit();
+	});
+
 
 
 }); //$(document).ready 
@@ -62,4 +81,50 @@ function regMenu(menu, callback, error) {
 	});//--ajax
 } //--regMenu()
 
-//등록메뉴 불러오기(리스트보이기)
+//사전작업
+var setting = (function() {
+	//formdata 만들기(이미지파일 아닌 부분)
+	function makeForm(form) {
+		var menu = new FormData();
+		var resNum = $("input[name='resNum']").val();
+		var menuName = $("input[name='menuName']").val();
+		var mainIngredient = $("input[name='mainIngredient']").val();
+		var menuAcoount = $("textarea[name='menuAcoount']").val();
+		var unitCost = $("input[name='unitCost']").val();
+		var serving = $("input[name='serving']").val();
+		var menuImg = "-";
+		//var file = menuImg[0].files;
+
+		menu.append(resNum, resNum);
+		menu.append(menuName, menuName);
+		menu.append(mainIngredient, mainIngredient);
+		menu.append(menuAcoount, menuAcoount);
+		menu.append(unitCost, unitCost);
+		menu.append(serving, serving);
+		menu.append(menuImg, menuImg);
+	}
+
+	//파일검증(확장자, 크기)
+	function checkFile(fileName, fileSize) {
+		var regex = new RegExp("(.*?)\.(jpg|jpeg|png|gif)$"); //이미지파일만 받는다.
+		var maxSize = 5242880; //5MB
+
+		if (fileSize > maxSize) {
+			alert("파일 사이즈가 너무 큽니다.(최대 5MB)");
+			return false;
+		}
+
+		if (!regex.test(fileName)) {
+			alert("이미지형식의 파일만 업로드 가능합니다.(jpg, png)");
+			return false;
+		}
+	}
+
+
+
+	return {
+		makeForm: makeForm,
+		checkFile: checkFile
+	}
+
+})();

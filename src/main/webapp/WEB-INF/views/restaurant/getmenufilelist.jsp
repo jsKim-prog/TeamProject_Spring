@@ -11,21 +11,26 @@
 			</div><!-- panel-heading -->
 			<div class="panel-body">
 				<div class="listarea">
+				<input type="hidden" name="resNum" value="${loginResNum}">
 				<c:choose>
 				<c:when test="${menuCnt eq 0}">
 				<div class="well"><p align="center">[메뉴추가] 버튼을 클릭하여 메뉴를 등록하세요.</p></div></c:when>
 				<c:when test="${menuCnt ne 0}">
-				<ul class="chat">
-				<c:forEach var="menu" items="${menus}" varStatus="status">				
+				<c:forEach var="menuimgs" items="${menuimgs}"></c:forEach>
+				<ul class="chat">				
+				<c:forEach var="menu" items="${menus}" varStatus="status" >	
 				<li class='left clearfix'  data-mno="${menu.menuNum}">
-				<div class="chat-body clearfix">
-				<a href="/restaurant/getmenu?menuNum=${menu.menuNum}"><div class='header'><strong class='primary-font'>${menu.menuName}</strong>
+				<span class="chat-img pull-left"><input type="hidden" class="filedata" data-path="${menuimgs[status.index].folderName}" data-fname = "${menuimgs[status.index].saveName}"></span>
+				<div class="chat-body clearfix" style="margin-left: 120px;">
+				<a href="/restaurant/getmenufile?menuNum=${menu.menuNum}"><div class='header'><strong class='primary-font'>${menu.menuName}</strong>
 				<strong class='pull-right text-muted'>${menu.unitCost} 원</strong></div></a>
 				<p>${menu.menuAcoount}</p></div></li>
-				</c:forEach>
+				</c:forEach>					
 				</ul></c:when>
 				</c:choose>
 				</div>
+				<input type="hidden" id="menuCnt" value="${menuCnt}">
+
 			</div><!-- panel-body -->
 			<div class="panel-footer">
 				

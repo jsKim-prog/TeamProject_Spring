@@ -5,45 +5,24 @@
 $(document).ready(function() {
 	//가상번호 생성	
 	let trCount = $("#table-body tr").length;
+	let originCnt = countRegTR();
 
 	console.log("test trcount:" + trCount);
-	changeVrNum(trCount);
-
+	console.log("test originTrCnt:" + originCnt);
+	setting.changeVrNum(trCount, originCnt);
 
 	//추가버튼 클릭(reg)
 	$("#plusBtn").on("click", function() {
 		trCount++;
-		var clonetr = "<tr id=''><td>"
-			+ "<input class='index form-control' type='number' value='' readonly='readonly'></td>"
-			+ "<td><select class='form-control' name='tableType'>"
-			+ "<option value='room'>룸타입</option>"
-			+ "<option value='table'>홀타입</option>"
-			+ "</select></td>"
-			+ "<td><div class='input-group'>"
-			+ "<input class='form-control'  type='number' name='headCount' value='0'/><span class='input-group-addon'>명</span></div></td>"
-			+ "<td><input  class='delbtn btn btn-default btn-sm' value='삭제' onclick='' style='width: 50%'>"
-			+ "</td></tr>";
-		$("#table-body").append(clonetr);
-		changeVrNum(trCount);
-
+		setting.addnewTR(trCount);
 	});
 
 	//추가버튼 클릭(get)
 	$("#plusNewBtn").on("click", function() {
 		trCount++;
-		var clonetr = "<tr id=''><td>"
-			+ "<input class='index form-control' type='number' value='' readonly='readonly'></td>"
-			+ "<td><select class='form-control' name='tableType'>"
-			+ "<option value='room'>룸타입</option>"
-			+ "<option value='table'>홀타입</option>"
-			+ "</select></td>"
-			+ "<td><div class='input-group'>"
-			+ "<input class='form-control'  type='number' name='headCount' value='0'/><span class='input-group-addon'>명</span></div></td>"
-			+ "<td><input class='insertbtn btn btn-success btn-sm' value='등록' onclick='' style='width: 50%'><input  class='delbtn btn btn-default btn-sm' value='삭제' onclick='' style='width: 50%'>"
-			+ "</td></tr>";
-		$("#table-body").append(clonetr);
-		changeVrNum(trCount);
-
+		originCnt = countRegTR();
+		setting.addTR(trCount, originCnt);
+		
 	});
 
 
@@ -114,6 +93,7 @@ $(document).ready(function() {
 			console.log("test: " + deloneresult);
 			tbmodal.modal("hide");
 			alert("삭제완료");
+			setting.checkArea(--originTrCnt);
 			deleteTR(targetnum);
 		});
 
@@ -122,34 +102,15 @@ $(document).ready(function() {
 
 }); //-- $(document).ready
 
-//자동인덱싱
-function changeVrNum(trCount) { //tr 개수만큼 index 번호를 자동으로 넣어줌
-	if (trCount > 1) {
-		$("#table-body tr").each(function(index, item) {
-			var indexNum = index + 1;
-			var typeTag = $(item).find(".tableTypeVal:hidden");
-			var taglength = typeTag.length;
-			$(item).attr("id", "tr" + indexNum);
-			$(item).find(".index").attr("value", indexNum);
-			if ($(item).find(".insertbtn").length > 0) {
-				$(item).find(".insertbtn").attr("onclick", "insertTR(" + indexNum + ")");
-			}
-			console.log("test tag길이:" + taglength);
-			if (taglength > 0) { // 등록된 거 불러올 때 -태그가 있다면				
-				var regtype = $(item).find(".tableTypeVal").val();
-				$(item).find("select option[value=" + regtype + "]").attr("selected", true);
-				$(item).find(".delbtn").attr("onclick", "delTableTR(" + indexNum + ")");
-			} else {
-				$(item).find(".delbtn").attr("onclick", "deleteTR(" + indexNum + ")"); //db등록한 것과 안한것 btn 메서드명 분리
-			}
-
-		});
-	} else {
-		$("#table-body tr").attr("id", "tr" + trCount);
-		$("#table-body tr").find(".index").attr("value", trCount);
-		$("#table-body tr").find(".delbtn").attr("onclick", "deleteTR(" + trCount + ")");
-	}
+function countRegTR(){
+	var originTrCnt = $("#table-body").find("tr").not(function(){
+		return $(this).attr("class") && $(this).attr("class").includes("insertbtn");
+	}).length;
+	
+	return originTrCnt;
 }
+
+
 
 
 //삭제버튼 클릭시(reg)
@@ -161,7 +122,7 @@ function deleteTR(num) {
 	//console.log("test:"+target.attr("id"));
 	$(target).remove();
 	trCount--;
-	changeVrNum(trCount);
+	setting.changeVrNum(trCount);
 };
 
 //삭제버튼 클릭시(get)
@@ -183,12 +144,14 @@ function delTableTR(num) {
 
 
 //등록버튼 클릭시(객체별 등록)
-function insertTR(num) {
+function insertTR(num, originTrCnt) {
 	var table = dataSet.makenewObj(num);
+	console.log("test originTrCnt:" + originTrCnt);
 	tbService.insertOne(table, function(result) {
 		if (result == "success") { //변경성공->alert
 			alert("등록성공");
-			showTables();
+			showTables(++originTrCnt);
+			deleteTR(num);
 		} else {
 			alert("변경오류. 관리자에게 문의하세요.");
 		}
@@ -196,10 +159,18 @@ function insertTR(num) {
 
 }
 
-function showTables() {
+function showTables(originTrCnt) {
 	var resNum = $("#sales_resNum").val(); //resNum : 공통
-	console.log("showtable실행")
+	console.log("showtable실행" + originTrCnt);
+	//var targetID = setting.checkArea(originTrCnt);
+	//console.log("targetTRID: " + targetID)
+	var target = $("#table-body").find("tr").filter(function(){
+		return $(this).attr("class") && $(this).attr("class").includes("insertbtn");
+	});
+	//var newArea = $("#table-body");
+	//var oldArea = target.nextAll();
 	tbService.getTables(resNum, function(tableCnt, tables) {
+		console.log("test list: " + tables);
 		if (tableCnt != 0) {
 			var str = "";
 			for (var i = 0, len = tables.length; i < len; i++) {
@@ -214,10 +185,15 @@ function showTables() {
 				str += "<td><input  class='delbtn btn btn-default btn-sm' value='삭제' onclick='' style='width: 50%'>";
 				str += "</td></tr>";
 			}//--for()
-			var insertArea = $("#table-body").find("tr").find("input:contains('tableNum')");
-			insertArea.html(str);
-			var trCount = $("#table-body tr").length;
-			changeVrNum(trCount);
+			console.log("test tableCnt: " + tableCnt);
+			//newArea.remove();
+			$("#table-body").html(str).add(target);   //****추후수정 */
+			console.log("test target: " + target);
+			//console.log("test oldArea: " + oldArea);
+			
+			var trCount = $("#table-body tr").length;			
+			setting.changeVrNum(trCount, tableCnt);
+			console.log("test trCount: " + trCount);
 		} else {
 			$("#table-body").html("");
 			return;
@@ -225,6 +201,97 @@ function showTables() {
 
 	});
 }
+
+
+
+//화면계산, 세팅용 서비스
+var setting = (function() {
+	//등록된 내용 tr 영역 설정(새 리스트 덮을 공간)--새로 추가된 행 시작점 찾기 
+	function checkArea(originTrCnt) {
+		//var targetTR = "";
+		var targetTRID = "";
+		console.log("test:checkArea 실행");
+		$("#table-body tr").each(function(index, item) {
+			if (index === originTrCnt-1) {
+				//targetTR=$(item);
+				targetTRID = $(item).attr("id");
+				console.log("targetID:" + targetTRID);
+				return false; //break
+			}
+		});
+		return targetTRID;
+
+	}
+
+	//자동인덱싱
+	function changeVrNum(trCount, originTrCnt) { //tr 개수만큼 index 번호를 자동으로 넣어줌
+		if (trCount > 1) {
+			$("#table-body tr").each(function(index, item) {
+				var indexNum = index + 1;
+				var typeTag = $(item).find(".tableTypeVal:hidden");
+				var taglength = typeTag.length;
+				$(item).attr("id", "tr" + indexNum);
+				$(item).find(".index").attr("value", indexNum);
+				if ($(item).find(".insertbtn").length > 0) {
+					$(item).find(".insertbtn").attr("onclick", "insertTR(" + indexNum + ", " + originTrCnt + ")");
+				}
+				//console.log("test tag길이:" + taglength);
+				if (taglength > 0) { // 등록된 거 불러올 때 -태그가 있다면				
+					var regtype = $(item).find(".tableTypeVal").val();
+					$(item).find("select option[value=" + regtype + "]").attr("selected", true);
+					$(item).find(".delbtn").attr("onclick", "delTableTR(" + indexNum + ")");
+				} else {
+					$(item).find(".delbtn").attr("onclick", "deleteTR(" + indexNum + ")"); //db등록한 것과 안한것 btn 메서드명 분리
+				}
+
+			});
+		} else {
+			$("#table-body tr").attr("id", "tr" + trCount);
+			$("#table-body tr").find(".index").attr("value", trCount);
+			$("#table-body tr").find(".delbtn").attr("onclick", "deleteTR(" + trCount + ")");
+		}
+	}
+	
+	//행추가(gettable.jsp)
+	function addTR(trCount, originTrCnt){
+		var clonetr = "<tr id=''><td>"
+			+ "<input class='index form-control' type='number' value='' readonly='readonly'></td>"
+			+ "<td><select class='form-control' name='tableType'>"
+			+ "<option value='room'>룸타입</option>"
+			+ "<option value='table'>홀타입</option>"
+			+ "</select></td>"
+			+ "<td><div class='input-group'>"
+			+ "<input class='form-control'  type='number' name='headCount' value='0'/><span class='input-group-addon'>명</span></div></td>"
+			+ "<td><input class='insertbtn btn btn-success btn-sm' value='등록' onclick='' style='width: 50%'><input  class='delbtn btn btn-default btn-sm' value='삭제' onclick='' style='width: 50%'>"
+			+ "</td></tr>";
+		$("#table-body").append(clonetr);
+		setting.changeVrNum(trCount, originTrCnt);
+	}
+	
+	//행추가(regtable.jsp)
+	function addnewTR(trCount){
+		var clonetr = "<tr id=''><td>"
+			+ "<input class='index form-control' type='number' value='' readonly='readonly'></td>"
+			+ "<td><select class='form-control' name='tableType'>"
+			+ "<option value='room'>룸타입</option>"
+			+ "<option value='table'>홀타입</option>"
+			+ "</select></td>"
+			+ "<td><div class='input-group'>"
+			+ "<input class='form-control'  type='number' name='headCount' value='0'/><span class='input-group-addon'>명</span></div></td>"
+			+ "<td><input  class='delbtn btn btn-default btn-sm' value='삭제' onclick='' style='width: 50%'>"
+			+ "</td></tr>";
+		$("#table-body").append(clonetr);
+		setting.changeVrNum(trCount);
+	}
+
+	return {
+		checkArea: checkArea,
+		changeVrNum: changeVrNum,
+		addnewTR:addnewTR,
+		addTR:addTR
+	};
+})();
+
 
 
 //json만들기 서비스 모음
@@ -303,12 +370,12 @@ var dataSet = (function() {
 		};
 		return table;
 	}
-	
-	return{
-		makeFormList:makeFormList,
-		makenewFormList:makenewFormList,
-		makenewObj:makenewObj,
-		makedelObj:makedelObj
+
+	return {
+		makeFormList: makeFormList,
+		makenewFormList: makenewFormList,
+		makenewObj: makenewObj,
+		makedelObj: makedelObj
 	};
 })();
 
@@ -429,7 +496,7 @@ var tbService = (function() {
 	function getTables(resNum, callback, error) {
 		console.log("test: list 가져오기 실행....");
 		$.getJSON("/restaurant/gettables/" + resNum + ".json", function(data) {
-			if (callback) { callback(data.tableCnt, data.tables) }
+			if (callback) { callback(data.tableCnt, data.tables); }
 		}).fail(function(xhr, status, err) {
 			if (error) { error(); }
 		}); //--function(data)

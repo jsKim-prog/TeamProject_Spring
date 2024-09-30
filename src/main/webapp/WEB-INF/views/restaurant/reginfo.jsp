@@ -23,14 +23,16 @@
 					<input type="hidden" id="oper_resNum" name="resNum" value="${loginResNum}">
 					<div class="row position-relative">
 						<div class="col-md-6 form-group">
-							<label>OPEN</label> <input type="time" class="form-control" id="openTime"/> 
-							<input type="hidden" name="openTime" value="--:--">							
+							<label>OPEN</label> 
+							<input type="time" class="form-control" id="openTime" /> 
+							<input type="hidden" name="openTime" value="">							
 						</div>
 						<!-- col-md-3 -->
 
 						<div class="col-md-6 form-group">
-							<label>CLOSE</label> <input type="time" class="form-control" id="endTime" /> 
-							<input type="hidden" name="endTime" value="--:--">	
+							<label>CLOSE</label> 
+							<input type="time" class="form-control" id="endTime" /> 
+							<input type="hidden" name="endTime" value="">	
 						</div>
 						<!-- col-md-3 -->
 					</div>
@@ -40,11 +42,13 @@
 						<div class="col-md-12 form-group">
 							<hr>
 							<label>BreakTime</label>
-							<div>
-								<label class="radio-inline"> <input type="radio" id="bt_true" name="breakTime" value="true"> 있음
-								</label> <label class="radio-inline"> <input type="radio" id="bt_false" name="breakTime" value="false" checked>
+							<div class="radioSelect">
+								<label class="radio-inline"> <input class="breaktime" type="radio" id="bt_true" name="breakTime_radio" value="true"> 있음
+								</label> 
+								<label class="radio-inline"> <input  class="breaktime" type="radio" id="bt_false" name="breakTime_radio" value="false" >
 									없음
 								</label>
+								<input class="breaktime" type="hidden" name="breakTime" value="false">
 							</div>
 						</div>
 						<!-- col-md-8 -->
@@ -62,8 +66,7 @@
 
 						<div class="col-md-6">
 							<div class="input-group">
-								<span class="input-group-addon">END</span> <input type="time"
-									class="form-control" id="breakTime_end" /> 
+								<span class="input-group-addon">END</span> <input type="time" class="form-control" id="breakTime_end" /> 
 									<input type="hidden" name="breakTime_end" value="--:--">
 							</div>
 							<!--.input-group  -->
@@ -77,13 +80,12 @@
 							<hr>
 							<label for="dayoff">휴무일</label>
 							<div class="input-group" id="dayoff">
-								<select class="form-control" id="dayoff_cate" name="dayoff_cate"
-									style="width: 40%">
+								<select class="form-control" id="dayoff_cate"  style="width: 40%">
 									<option value="연중무휴">연중무휴</option>
 									<option value="매월">매월</option>
 									<option value="매주">매주</option>
-								</select> <select class="form-control" id="dayoff_weekCnt"
-									name="dayoff_weekCnt" style="width: 30%" disabled>
+								</select> 								
+								<select class="form-control" id="dayoff_weekCnt" style="width: 30%" disabled>
 									<option value="-" >-</option>
 									<option value="1">첫째주</option>
 									<option value="2">둘째주</option>
@@ -91,8 +93,7 @@
 									<option value="4">넷째주</option>
 									<option value="13">첫째, 셋째주</option>
 									<option value="24">둘째, 넷째주</option>
-								</select> <select class="form-control" id="dayoff_Day" name="dayoff_Day"
-									style="width: 30%" disabled>
+								</select> <select class="form-control" id="dayoff_Day"  style="width: 30%" disabled>
 									<option value="-" >-</option>
 									<option value="월">월요일</option>
 									<option value="화">화요일</option>
@@ -102,6 +103,7 @@
 									<option value="토">토요일</option>
 									<option value="일">일요일</option>
 								</select>
+								<input type="hidden" name=dayoff_cate value="연중무휴">
 								<input type="hidden" name=dayoff_weekCnt value="-">
 								<input type="hidden" name=dayoff_Day value="-">
 							</div>
@@ -115,18 +117,17 @@
 						<div class="col-md-12 form-group">
 							<hr>
 							<label for="adPayCheck">예약금 설정
-								<button type="button" class="btn btn-danger btn-circle"
-									id="queBtn">
+								<button type="button" class="btn btn-danger btn-circle" id="queBtn">
 									<i class="fa fa-question-circle"></i>
 								</button>
 							</label>
-							<div id="adPayCheck">
-								<label class="radio-inline"> <input type="radio"
-									id="adPay_false" name="adPaySel" value="false" checked>
-									설정안함
-								</label> <label class="radio-inline"> <input type="radio"
-									id="adPay_true" name="adPaySel" value="true"> 설정함
+							<div class="radioSelect">
+								<label class="radio-inline"> <input type="radio" class="adPaySel" id="adPay_true" name="adPaySel_radio" value="true"> 설정함
 								</label>
+								<label class="radio-inline"> <input type="radio" class="adPaySel" id="adPay_false" name="adPaySel_radio" value="false" >
+									설정안함
+								</label> 
+								<input class="breaktime" type="hidden" name="adPaySel" value="false">
 							</div>
 						</div>
 						<!-- col-md-8 -->

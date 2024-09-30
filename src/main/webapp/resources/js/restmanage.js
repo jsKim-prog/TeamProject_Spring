@@ -96,7 +96,7 @@ $(document).ready(function() {
 		mtitle.html("Happy Table");
 		mbody.html(mbodyStr);
 		modalBtn.show();
-		modalBtn.attr("onclick", "location.href = '/restaurant/menulist'")
+		modalBtn.attr("onclick", "location.href = '/restaurant/menufilelist'")
 	});
 
 

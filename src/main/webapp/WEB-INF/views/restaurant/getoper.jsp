@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!-- 불러오기용으로 패널정보만 표시 -->
 <!-- .row close -->
-<form id="reginfoForm" method="post" action="/restaurant/modoper" onsubmit="return valForm(this)">
+<form id="getinfoForm" method="post" action="/restaurant/modoper" onsubmit="return valForm(this)">
 <input type="hidden" name="resNum" id="oper_resNum" value="${loginResNum}">
 <div class="col-md-8 col-md-offset-2">
 	<div class="panel panel-info">
@@ -14,15 +14,15 @@
 			<div class="row position-relative">
 				<div class="col-md-6 form-group">
 					<label>OPEN</label> 
-					<input type="time" class="form-control" id="openTime" value="${oper.openTime}" />
-					<input type="hidden" name="openTime" value="--:--">	
+					<input type="time" class="form-control" id="openTime"  />
+					<input type="hidden" name="openTime" value="${oper.openTime}">	
 				</div>
 				<!-- col-md-3 -->
 
 				<div class="col-md-6 form-group">
 					<label>CLOSE</label> 
-					<input type="time" class="form-control" id="endTime"  value="${oper.endTime}" />
-					<input type="hidden" name="endTime" value="--:--">
+					<input type="time" class="form-control" id="endTime"   />
+					<input type="hidden" name="endTime" value="${oper.endTime}">
 				</div>
 				<!-- col-md-3 -->
 			</div>
@@ -32,9 +32,9 @@
 				<div class="col-md-12 form-group">
 					<hr>
 					<label>BreakTime</label>
-					<div>
-						<label class="radio-inline"> <input type="radio" id="bt_true" name="bt_sel" value="true"> 있음</label> 
-						<label class="radio-inline"> <input type="radio" id="bt_false" name="bt_sel" value="false"> 없음</label> 
+					<div class="radioSelect">
+						<label class="radio-inline"> <input type="radio" id="bt_true" name="breakTime_radio" value="true"> 있음</label> 
+						<label class="radio-inline"> <input type="radio" id="bt_false" name="breakTime_radio" value="false"> 없음</label> 
 						<input type="hidden" id="breakTime" name="breakTime" value="${oper.breakTime}">						
 					</div>
 				</div>
@@ -45,8 +45,8 @@
 				<div class="col-md-6 ">
 					<div class="input-group">
 						<span class="input-group-addon">START</span> 
-						<input type="time" class="form-control" id="breakTime_start" value="${oper.breakTime_start}" />
-						<input type="hidden" name="breakTime_start" value="--:--">
+						<input type="time" class="form-control" id="breakTime_start"  />
+						<input type="hidden" name="breakTime_start" value="${oper.breakTime_start}">
 					</div>
 					<!--.input-group  -->
 				</div>
@@ -55,8 +55,8 @@
 				<div class="col-md-6">
 					<div class="input-group">
 						<span class="input-group-addon">END</span> 
-						<input type="time" class="form-control" id="breakTime_end"  value="${oper.breakTime_end}" />
-						<input type="hidden" name="breakTime_end" value="--:--">
+						<input type="time" class="form-control" id="breakTime_end"  />
+						<input type="hidden" name="breakTime_end" value="${oper.breakTime_end}" >
 					</div>
 					<!--.input-group  -->
 				</div>
@@ -69,17 +69,11 @@
 					<hr>
 					<label for="dayoff">휴무일</label>
 					<div class="input-group" id="dayoff">
-						<input type="hidden" id="dayoff_cate_data"
-							value="${oper.dayoff_cate}"> <input type="hidden"
-							id="dayoff_weekCnt_data" value="${oper.dayoff_weekCnt}">
-						<input type="hidden" id="dayoff_Day_data"
-							value="${oper.dayoff_Day}"> <select class="form-control"
-							id="dayoff_cate" name="dayoff_cate" style="width: 40%">
+						<select class="form-control" id="dayoff_cate"  style="width: 40%">
 							<option value="연중무휴">연중무휴</option>
 							<option value="매월">매월</option>
 							<option value="매주">매주</option>
-						</select> <select class="form-control" id="dayoff_weekCnt"
-							name="dayoff_weekCnt" style="width: 30%">
+						</select> <select class="form-control" id="dayoff_weekCnt"  style="width: 30%">
 							<option value="-" disabled>-</option>
 							<option value="1">첫째주</option>
 							<option value="2">둘째주</option>
@@ -87,9 +81,7 @@
 							<option value="4">넷째주</option>
 							<option value="13">첫째, 셋째주</option>
 							<option value="24">둘째, 넷째주</option>
-
-						</select> <select class="form-control" id="dayoff_Day" name="dayoff_Day"
-							style="width: 30%">
+						</select> <select class="form-control" id="dayoff_Day"  style="width: 30%">
 							<option value="-" disabled>-</option>
 							<option value="월">월요일</option>
 							<option value="화">화요일</option>
@@ -99,8 +91,9 @@
 							<option value="토">토요일</option>
 							<option value="일">일요일</option>
 						</select>
-						<input type="hidden" name=dayoff_weekCnt value="-">
-						<input type="hidden" name=dayoff_Day value="-">
+						<input type="hidden" name=dayoff_cate value="${oper.dayoff_cate}">
+						<input type="hidden" name=dayoff_weekCnt value="${oper.dayoff_weekCnt}">
+						<input type="hidden" name=dayoff_Day value="${oper.dayoff_Day}">
 					</div>
 					<!--.input-group  -->
 				</div>
@@ -116,10 +109,10 @@
 							<i class="fa fa-question-circle"></i>
 					</a>
 					</label>
-					<div id="adPayCheck">
-						<label class="radio-inline"> <input type="radio" id="adPay_false" name="adPaySel_radio" value="false">
-							설정안함</label> 
-						<label class="radio-inline"> <input type="radio" id="adPay_true" name="adPaySel_radio" value="true"> 설정함</label> 
+					<div class="radioSelect">
+					<label class="radio-inline"> <input type="radio" class="adPaySel" id="adPay_true" name="adPaySel_radio" value="true"> 설정함</label>
+						<label class="radio-inline"> <input type="radio" class="adPaySel" id="adPay_false" name="adPaySel_radio" value="false">
+							설정안함</label> 				 
 						<input type="hidden" id="adPaySel" name="adPaySel" value="${oper.adPaySel}">
 					</div>
 				</div>
@@ -174,5 +167,4 @@
 </div>
 <!-- .col-md-8 close -->
 </form>
-<script type="text/javascript" src="/resources/js/restget.js"></script>
 <script type="text/javascript" src="/resources/js/restreginfo.js"></script>

@@ -64,10 +64,10 @@ $(document).ready(function() {
 	} else {
 		$("input[id='inputMenuRev']").attr("checked", false);
 	}
+	
 
 
-
-	//예약금 모달창 열리기
+	//예약금 모달창 열리기(in myrestaurnat)
 	$("#queBtn2").on("click", function() {
 		var mtitle = $(".modal-title");
 		var mbody = $(".modal-body ul");

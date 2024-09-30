@@ -34,6 +34,7 @@
 				</ul></c:when>
 				</c:choose>
 				</div>
+				<input type="hidden" id="path" value="${upath}">
 			</div><!-- panel-body -->
 			<div class="panel-footer">
 				
