@@ -1,5 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+// 일반회원 로그인 값
+// 세션에서 loggedIn값을 가져와 loggedIn변수에 저장
+Boolean loggedIn = (Boolean) session.getAttribute("loggedIn");
+// loggedIn이 null이 아니고, true이면 String변수에 true저장, 아니면 false저장
+String loggedInStr = (loggedIn != null && loggedIn) ? "true" : "false";
+// 사업자회원 로그인 값
+Boolean loggedIn2 = (Boolean) session.getAttribute("loggedIn2");
+String loggedInStr2 = (loggedIn2 != null && loggedIn2) ? "true" : "false";
+%>
 <!DOCTYPE html>
 <head>
 <meta charset="utf-8">
@@ -32,210 +42,85 @@
 <link href="/resources/sbadmin/dist/css/sb-admin-2.css" rel="stylesheet">
 
 <!-- Custom Fonts -->
-<link href="/resources/sbadmin/vendor/font-awesome/css/font-awesome.min.css"
+<link
+	href="/resources/sbadmin/vendor/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
-<!-- favicon.ico 404 (Not Found) 에러로 삽입한줄  -->
-<link rel="shortcut icon" href="#">	
-
+<!-- favicon.ico 404 (Not Found) 에러로 삽입한줄 
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">	-->
+<link rel="shortcut icon" href="#">
 </head>
 
 <body>
-<!-- Navigation -->
+	<!-- Navigation -->
 	<div id="wrapper">
-	<nav class="navbar navbar-default navbar-static-top" role="navigation"
-		style="margin-bottom: 0">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse"
-				data-target=".navbar-collapse">
-				<span class="sr-only">Toggle navigation</span> <span
-					class="icon-bar"></span> <span class="icon-bar"></span> <span
-					class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="index.html">Happy Table</a>
-		</div>
-		<!-- /.navbar-header -->
+		<nav class="navbar navbar-default navbar-static-top" role="navigation"
+			style="margin-bottom: 0">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="/">Happy Table</a>
+			</div>
+			<!-- /.navbar-header -->
 
-		<ul class="nav navbar-top-links navbar-right">
-			<li class="dropdown"><a class="dropdown-toggle"
-				data-toggle="dropdown" href="#"> <i class="fa fa-envelope fa-fw"></i>
-					<i class="fa fa-caret-down"></i>
-			</a>
-				<ul class="dropdown-menu dropdown-messages">
-					<li><a href="#">
-							<div>
-								<strong>John Smith</strong> <span class="pull-right text-muted">
-									<em>Yesterday</em>
-								</span>
-							</div>
-							<div>Lorem ipsum dolor sit amet, consectetur adipiscing
-								elit. Pellentesque eleifend...</div>
-					</a></li>
-					<li class="divider"></li>
-					<li><a href="#">
-							<div>
-								<strong>John Smith</strong> <span class="pull-right text-muted">
-									<em>Yesterday</em>
-								</span>
-							</div>
-							<div>Lorem ipsum dolor sit amet, consectetur adipiscing
-								elit. Pellentesque eleifend...</div>
-					</a></li>
-					<li class="divider"></li>
-					<li><a href="#">
-							<div>
-								<strong>John Smith</strong> <span class="pull-right text-muted">
-									<em>Yesterday</em>
-								</span>
-							</div>
-							<div>Lorem ipsum dolor sit amet, consectetur adipiscing
-								elit. Pellentesque eleifend...</div>
-					</a></li>
-					<li class="divider"></li>
-					<li><a class="text-center" href="#"> <strong>Read
-								All Messages</strong> <i class="fa fa-angle-right"></i>
-					</a></li>
-				</ul> <!-- /.dropdown-messages --></li>
-			<!-- /.dropdown -->
-			<li class="dropdown"><a class="dropdown-toggle"
-				data-toggle="dropdown" href="#"> <i class="fa fa-tasks fa-fw"></i>
-					<i class="fa fa-caret-down"></i>
-			</a>
-				<ul class="dropdown-menu dropdown-tasks">
-					<li><a href="#">
-							<div>
-								<p>
-									<strong>Task 1</strong> <span class="pull-right text-muted">40%
-										Complete</span>
-								</p>
-								<div class="progress progress-striped active">
-									<div class="progress-bar progress-bar-success"
-										role="progressbar" aria-valuenow="40" aria-valuemin="0"
-										aria-valuemax="100" style="width: 40%">
-										<span class="sr-only">40% Complete (success)</span>
-									</div>
-								</div>
-							</div>
-					</a></li>
-					<li class="divider"></li>
-					<li><a href="#">
-							<div>
-								<p>
-									<strong>Task 2</strong> <span class="pull-right text-muted">20%
-										Complete</span>
-								</p>
-								<div class="progress progress-striped active">
-									<div class="progress-bar progress-bar-info" role="progressbar"
-										aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"
-										style="width: 20%">
-										<span class="sr-only">20% Complete</span>
-									</div>
-								</div>
-							</div>
-					</a></li>
-					<li class="divider"></li>
-					<li><a href="#">
-							<div>
-								<p>
-									<strong>Task 3</strong> <span class="pull-right text-muted">60%
-										Complete</span>
-								</p>
-								<div class="progress progress-striped active">
-									<div class="progress-bar progress-bar-warning"
-										role="progressbar" aria-valuenow="60" aria-valuemin="0"
-										aria-valuemax="100" style="width: 60%">
-										<span class="sr-only">60% Complete (warning)</span>
-									</div>
-								</div>
-							</div>
-					</a></li>
-					<li class="divider"></li>
-					<li><a href="#">
-							<div>
-								<p>
-									<strong>Task 4</strong> <span class="pull-right text-muted">80%
-										Complete</span>
-								</p>
-								<div class="progress progress-striped active">
-									<div class="progress-bar progress-bar-danger"
-										role="progressbar" aria-valuenow="80" aria-valuemin="0"
-										aria-valuemax="100" style="width: 80%">
-										<span class="sr-only">80% Complete (danger)</span>
-									</div>
-								</div>
-							</div>
-					</a></li>
-					<li class="divider"></li>
-					<li><a class="text-center" href="#"> <strong>See
-								All Tasks</strong> <i class="fa fa-angle-right"></i>
-					</a></li>
-				</ul> <!-- /.dropdown-tasks --></li>
-			<!-- /.dropdown -->
-			<li class="dropdown"><a class="dropdown-toggle"
-				data-toggle="dropdown" href="#"> <i class="fa fa-bell fa-fw"></i>
-					<i class="fa fa-caret-down"></i>
-			</a>
-				<ul class="dropdown-menu dropdown-alerts">
-					<li><a href="#">
-							<div>
-								<i class="fa fa-comment fa-fw"></i> New Comment <span
-									class="pull-right text-muted small">4 minutes ago</span>
-							</div>
-					</a></li>
-					<li class="divider"></li>
-					<li><a href="#">
-							<div>
-								<i class="fa fa-twitter fa-fw"></i> 3 New Followers <span
-									class="pull-right text-muted small">12 minutes ago</span>
-							</div>
-					</a></li>
-					<li class="divider"></li>
-					<li><a href="#">
-							<div>
-								<i class="fa fa-envelope fa-fw"></i> Message Sent <span
-									class="pull-right text-muted small">4 minutes ago</span>
-							</div>
-					</a></li>
-					<li class="divider"></li>
-					<li><a href="#">
-							<div>
-								<i class="fa fa-tasks fa-fw"></i> New Task <span
-									class="pull-right text-muted small">4 minutes ago</span>
-							</div>
-					</a></li>
-					<li class="divider"></li>
-					<li><a href="#">
-							<div>
-								<i class="fa fa-upload fa-fw"></i> Server Rebooted <span
-									class="pull-right text-muted small">4 minutes ago</span>
-							</div>
-					</a></li>
-					<li class="divider"></li>
-					<li><a class="text-center" href="#"> <strong>See
-								All Alerts</strong> <i class="fa fa-angle-right"></i>
-					</a></li>
-				</ul> <!-- /.dropdown-alerts --></li>
-			<!-- /.dropdown -->
-			<li class="dropdown"><a class="dropdown-toggle"
-				data-toggle="dropdown" href="#"> <i class="fa fa-user fa-fw"></i>
-					<i class="fa fa-caret-down"></i>
-			</a>
-				<ul class="dropdown-menu dropdown-user">
-					<li><a href="#"><i class="fa fa-user fa-fw"></i> User
-							Profile</a></li>
-					<li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-					</li>
-					<li class="divider"></li>
-					<li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i>
-							Logout</a></li>
-				</ul> <!-- /.dropdown-user --></li>
-			<!-- /.dropdown -->
-		</ul>
-		<!-- /.navbar-top-links -->
+			<ul class="nav navbar-top-links navbar-right">
+				<li class="dropdown"><a class="dropdown-toggle" href="/"> 홈
+				</a>
+				<li id="mypage" class="dropdown"><a class="dropdown-toggle"
+					href="/restaurant/myrestaurant?resNum=${ loginResNum }"> 내정보 </a>
+				<li id="checkrev" class="dropdown"><a class="dropdown-toggle"
+					href="/order/listRes?resNum=${ loginResNum }"> 예약조회 </a>
+				<li class="dropdown" id="login"><a href="/restaurant/restlogin">로그인</a></li>
 
-	</nav>
+				<li class="dropdown" id="logout"><a href="/member/logout">로그아웃</a></li>
+
+
+
+
+
+
+			</ul>
+
+			<!-- /.navbar-top-links -->
+
+		</nav>
+
+
 
 		<div id="page-wrapper">
-
 			<script
 				src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-				
+			<script type="text/javascript">
+				$(document).ready(function() {
+					// 로그인 상태를 확인하는 함수
+					var loggedIn2 =
+			<%=loggedInStr2%>
+				; // 관리자
+					console.log(loggedIn2);
+
+					if (loggedIn2) { // 로그인 상태면
+						$('#login').hide(); // 로그인 버튼 숨기기
+						$('#logout').show(); // 로그아웃 버튼 보이기
+					} else if (!loggedIn2) { // 로그아웃 상태면
+						$('#login').show(); // 로그인 버튼 보이기
+						$('#logout').hide(); // 로그아웃 버튼 숨기기
+						
+						$("#mypage").on("click", function(e){
+							e.preventDefault();
+							alert("로그인후 이용 가능합니다.");
+							return;
+						});
+						
+						$("#checkrev").on("click", function(e){
+							e.preventDefault();
+							alert("로그인후 이용 가능합니다.");
+							return;
+						});
+						
+					}
+
+				});
+			</script>

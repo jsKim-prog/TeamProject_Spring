@@ -54,7 +54,7 @@
 						<!-- col-md-8 -->
 					</div>
 					<!-- .row close -->
-					<div class="row" id="breaktime_input" style="display: none">
+					<div class="row" id="breakTime_input" >
 						<div class="col-md-6 ">
 							<div class="input-group">
 								<span class="input-group-addon">START</span> <input type="time" class="form-control" id="breakTime_start" /> 
@@ -127,14 +127,14 @@
 								<label class="radio-inline"> <input type="radio" class="adPaySel" id="adPay_false" name="adPaySel_radio" value="false" >
 									설정안함
 								</label> 
-								<input class="breaktime" type="hidden" name="adPaySel" value="false">
+								<input class="adPaySel" type="hidden" name="adPaySel" value="false">
 							</div>
 						</div>
 						<!-- col-md-8 -->
 					</div>
 					<!-- .row close -->
 
-					<div class="row" id="adPay_input" style="display: none;">
+					<div class="row" id="adPaySel_input" >
 						<!-- 선택하면 활성화되는 란 -->
 						<div class="col-md-6">
 							<p>예약금 지불 최소인원</p>
@@ -195,7 +195,6 @@
 			<div class="modal-body">
 				<ul>
 				</ul>
-
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

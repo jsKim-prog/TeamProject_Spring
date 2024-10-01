@@ -14,7 +14,7 @@
 			<div class="row position-relative">
 				<div class="col-md-6 form-group">
 					<label>OPEN</label> 
-					<input type="time" class="form-control" id="openTime"  />
+					<input type="time" class="form-control" id="openTime"/>
 					<input type="hidden" name="openTime" value="${oper.openTime}">	
 				</div>
 				<!-- col-md-3 -->
@@ -41,7 +41,7 @@
 				<!-- col-md-8 -->
 			</div>
 			<!-- .row close -->
-			<div class="row" id="breaktime_input" style="display: none">
+			<div class="row" id="breakTime_input" >
 				<div class="col-md-6 ">
 					<div class="input-group">
 						<span class="input-group-addon">START</span> 
@@ -74,7 +74,7 @@
 							<option value="매월">매월</option>
 							<option value="매주">매주</option>
 						</select> <select class="form-control" id="dayoff_weekCnt"  style="width: 30%">
-							<option value="-" disabled>-</option>
+							<option value="-" >-</option>
 							<option value="1">첫째주</option>
 							<option value="2">둘째주</option>
 							<option value="3">셋째주</option>
@@ -82,7 +82,7 @@
 							<option value="13">첫째, 셋째주</option>
 							<option value="24">둘째, 넷째주</option>
 						</select> <select class="form-control" id="dayoff_Day"  style="width: 30%">
-							<option value="-" disabled>-</option>
+							<option value="-" >-</option>
 							<option value="월">월요일</option>
 							<option value="화">화요일</option>
 							<option value="수">수요일</option>
@@ -105,7 +105,7 @@
 				<div class="col-md-12 form-group">
 					<hr>
 					<label for="adPayCheck">예약금 설정 <a href="#myModal"
-						class="btn btn-danger btn-circle" id="queBtn2" data-toggle="modal">
+						class="btn btn-danger btn-circle" id="queBtn" data-toggle="modal">
 							<i class="fa fa-question-circle"></i>
 					</a>
 					</label>
@@ -119,7 +119,7 @@
 				<!-- col-md-8 -->
 			</div>
 			<!-- .row close -->
-			<div class="row" id="adPay_input" style="display: none;">
+			<div class="row" id="adPaySel_input" ">
 				<!-- 선택하면 활성화되는 란 -->
 				<div class="col-md-6">
 					<p>예약금 지불 최소인원</p>
@@ -167,4 +167,5 @@
 </div>
 <!-- .col-md-8 close -->
 </form>
+
 <script type="text/javascript" src="/resources/js/restreginfo.js"></script>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.happytable.mapper.GiftcardMapper">
+<insert id="insert" parameterType="com.happytable.domain.GiftCardVO">
+	<selectKey keyProperty="gcNum" order="BEFORE" resultType="string">
+	select seq_gcNum.nextval || 'gc' from dual
+	</selectKey>
+	<![CDATA[
+	insert into tb_giftcard (resNum, gcNum, gcName, gcType, dicount, service, needMile) values (#{resNum}, #{gcNum}, #{gcName}, #{gcType}, #{dicount}, #{service}, #{needMile})
+	]]>
+</insert>
+
+<select id="read">
+	<![CDATA[
+	select * from tb_giftcard where gcNum = #{gcNum}
+	]]>
+</select>
+
+<select id="readAll">
+	<![CDATA[
+	select * from tb_giftcard where resNum = #{resNum} order by gcNum desc
+	]]>
+</select>
+
+<update id="update">
+	<![CDATA[
+	update tb_giftcard set gcName=#{gcNum}, gcType=#{gcType}, dicount=#{dicount}, service#{service}, needMile=#{needMile} where gcNum = #{gcNum}	
+	]]>
+</update>
+
+<delete id="delete">
+	<![CDATA[
+	delete from tb_giftcard where gcNum = #{gcNum}
+	]]>
+</delete>
+
+<delete id="deleteAll">
+	<![CDATA[
+	delete from tb_giftcard where resNum = #{resNum}
+	]]>
+</delete>
+
+<select id="countGiftcard">
+	<![CDATA[
+	select count(*) from tb_giftcard where resNum = #{resNum}
+	]]>
+</select>
+
+</mapper>

@@ -135,6 +135,36 @@ alter table tb_menuimg add moddate Date default sysdate;
 select * from tb_menuimg;
 
 ---drop table tb_menuimg;
+
+---------------------------- tb_giftcard : 상품권 관리 테이블(**09/30)
+create table tb_giftcard(
+resNum varchar2(20),
+gcNum varchar2(100) primary key,
+gcName varchar2(100),
+gcType varchar2(50),
+amount number,
+service varchar2(100),
+needMile number
+);
+
+select * from tb_giftcard;
+alter table tb_giftcard add constraint gc_resnum_fk foreign key (resNum) references tb_restaurant (resNum);
+alter table tb_giftcard rename column dicount to amount;
+
+--gcNum  sequence **09/30
+CREATE SEQUENCE seq_gcNum
+START WITH 10000000
+INCREMENT BY 1
+MINVALUE 10000000
+MAXVALUE 99999999
+CYCLE
+CACHE 20;
+
+--drop sequence seq_gcNum;
+
+
+
+
 ------------------------------------------test용 영역
 SELECT DECODE(TO_CHAR(TRUNC(sysdate,'MONTH'), 'D'), 7,TRUNC(sysdate,'MONTH'), NEXT_DAY(TRUNC(sysdate,'MONTH'),'토')) FIRST, DECODE(TO_CHAR(TRUNC(sysdate,'MONTH'), 'D'), 7,TRUNC(sysdate,'MONTH')+14, NEXT_DAY(TRUNC(sysdate,'MONTH'),'토')+14) THIRD FROM dual;
 --매월 1, 3주 토요일 휴무계산-가로 출력
