@@ -16,11 +16,29 @@
 		<div class="panel panel-info">
 			<div class="panel-heading">메뉴등록</div>
 			<!-- .panel-heading -->
-			<form id="menuForm" method="post" action="restaurant/register" >		
+			<form id="menuregForm" method="post" action="/restaurant/regmenufile" enctype="multipart/form-data" onsubmit="return valregForm(this)">			
 			<div class="panel-body">
-				<!-- resnum 전송위한 hidden -->				
+				<!-- resnum 전송위한 hidden -->								
 				<input type="hidden" id="menu_resNum" name="resNum" value="${loginResNum}">
-				
+				<div class="row" style="width: 90%; margin-left: 20px;" >
+                    <div class="panel panel-default" >
+                        <div class="panel-heading">
+                            <div class="imagebox" id="imageBox" style="height: 237px; display :flex; align-items: center; justify-content: center; text-align: center;">
+                                <div class="inbox" id="nullBox">
+                                <h5>메뉴이미지 <br><small>최대 파일크기 : 5MB<br>한 메뉴당 한 장의 이미지만 등록가능합니다.</small></h5>
+                                </div>
+                                <div class="inbox" id="preview" style=" height: 100%;"></div>
+                            </div>
+                        </div>
+                            <div class="panel-footer">
+                                <input class="btn btn-primary btn-block"  id="imgreg" value="이미지 등록하기">
+                                <div class="preupdiv" style="display: none;">
+                                <input type="file" name="menuImg" id="fileinput"  multiple ></div>
+                            </div>
+                    </div>
+				</div>
+				<!--.row  -->
+				<input type="hidden" id="menu" name="menu" >
 				<div class="row" style="width: 90%; margin-left: 20px;">
 					<div class="form-group">
 						<label for="menuName">메뉴명</label><input type="text"
@@ -63,13 +81,6 @@
 					</div>
 				</div>
 				<!--.row  -->
-				<div class="row" style="width: 90%; margin-left: 20px;">
-					<div class="form-group">
-						<label for="menuImg">이미지파일(선택사항-구현중)</label> <input type="file"
-							id="menuImg" name="menuImg" value="-">
-					</div>
-				</div>
-				<!--.row  -->
 			</div>
 			<!-- .panel-body -->
 			<div class="panel-footer">
@@ -85,6 +96,6 @@
 <!-- .row -->
 
 
-<script type="text/javascript" src="/resources/js/restregmenu.js"></script>
+<script type="text/javascript" src="/resources/js/restregmenufile.js"></script>
 <%@ include file="../includes/footer2.jsp"%>
 

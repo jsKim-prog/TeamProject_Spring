@@ -25,7 +25,7 @@
   <!-- U : 레스토랑 정보 변경 update -->
   <update id="update">
   	<![CDATA[
-  	update tb_restaurant set resPW = #{resPW}, resName = #{resName}, resAddr = #{resAddr}, co_Num = #{co_Num}, certify = #{certify}, summary = #{summary} resPhone = #{resPhone} where resNum = #{resNum}
+  	update tb_restaurant set resPW = #{resPW}, resName = #{resName}, resAddr = #{resAddr}, co_Num = #{co_Num}, certify = #{certify}, summary = #{summary}, resPhone = #{resPhone} where resNum = #{resNum}
   	]]>  
   </update>
   <!--D : 레스토랑 탈퇴 delete  -->

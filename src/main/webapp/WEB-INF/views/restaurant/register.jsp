@@ -10,6 +10,10 @@
 	</div>
 	<!-- .col-md-12 close -->
 </div>
+<div class="alert alert-danger" style="display: none; text-align: center;">
+<input type="hidden" id="result" value="${result}">
+<p></p>
+</div><!-- 가입결과 알럿창(hidden) -->
 <!-- .row close -->
 <div class="row">
 	<div class="col-md-8 col-md-offset-2">
@@ -21,10 +25,10 @@
 				<div class="panel-body">
 
 					<div class="row" style="width: 90%; margin-left: 20px;">
-						<div class="form-group" id="idDiv">
-							<label>아이디</label> <input type="text" class="form-control"
-								id="resID" name="resID"
-								placeholder="아이디를 입력하세요.(영문, 숫자포함 5~10자)" />
+						<div class="form-group ">
+							<label>아이디</label><div class="input-group"> <input type="text" class="form-control"
+								id="resID" name="resID" placeholder="아이디를 입력하세요.(영문, 숫자포함 5~10자)" />
+								<span class="input-group-btn" ><a class="btn btn-warning" id="dupleCheck" data-value="0">중복확인</a></span></div>
 						</div>
 						<!-- .row close -->
 					</div>
@@ -50,10 +54,9 @@
 						<div class="form-group">
 							<label>대표 전화번호</label>
 							<div class="input-group" >
-								<input type="text" class="form-control" id="phone_f" name="phone_f" /><span class="input-group-addon">-</span> <input
-									type="text" class="form-control" id="phone_m" name="phone_m" /><span
-									class="input-group-addon">-</span> <input type="text"
-									class="form-control" id="phone_l" name="phone_l" />
+								<input type="number" class="form-control" id="phone_f" name="divNum" /><span class="input-group-addon">-</span> 
+								<input type="number" class="form-control" id="phone_m" name="divNum" /><span class="input-group-addon">-</span> 
+								<input type="number" class="form-control" id="phone_l" name="divNum" />
 								<input type="hidden" name="resPhone" id="resPhone" />	
 							</div>
 						</div>
@@ -81,11 +84,10 @@
 						<div class="form-group">
 							<label>사업자번호</label>
 							<div class="input-group" id="coNum">
-								<input type="text" class="form-control" id="conum_f" name="conum_f"/><span class="input-group-addon">-</span> <input
-									type="text" class="form-control" id="conum_m"  name="conum_m"/><span
-									class="input-group-addon">-</span> <input type="text"
-									class="form-control" id="conum_l" name="conum_l"/>
-									<input type="hidden" name="co_Num" id="co_Num" />	
+								<input type="number" class="form-control" id="conum_f" name="divNum"/><span class="input-group-addon">-</span> 
+								<input type="number" class="form-control" id="conum_m"  name="divNum"/><span class="input-group-addon">-</span> 
+								<input type="number" class="form-control" id="conum_l" name="divNum"/>
+								<input type="hidden" name="co_Num" id="co_Num" />	
 							</div>
 						</div>
 						<!-- .form-group close -->

@@ -3,7 +3,10 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.happytable.mapper.SalesMapper">
- <insert id="insert">
+ <insert id="insert"> 
+ <selectKey keyProperty="tableNum" order="BEFORE" resultType="int">
+ 	select seq_table.nextval from dual
+ </selectKey>
  <![CDATA[
  insert into tb_sales (tableNum, resNum, tableType, headCount) values (#{tableNum}, #{resNum}, #{tableType}, #{headCount})
  ]]>

@@ -39,30 +39,30 @@
 					<li id="nonMenu"><a href="#myModal" data-toggle="modal">메뉴관리(미등록)</a></li>
 				</c:when>
 				<c:when test="${menus ne null}">
-					<li><a href="#mymenus" data-toggle="tab">메뉴관리</a></li>
+					<li><a href="#mymenu" data-toggle="tab">메뉴관리</a></li>
 				</c:when>
 			</c:choose>
 		</ul>
 	</div>
-	<!-- resNum 전송위한 hidden -->
+	<!-- 공통 resNum 받기위한 hidden -->
 	<form role="form" name="resnumForm" id="resnumForm" action=""
 		method="get">
-		<input type="hidden" id="rest_resNum" name="resNum"
-			value="${myrest.resNum}">
+		<input type="hidden" id="resNum" name="resNum" value="${loginResNum}">
+		<input type="hidden" id="common_result" value="${result}">
 	</form>
 
 	<!-- Tab panes -->
 	<div class="tab-content">
 		<div class="tab-pane fade in active" id="myRest">
 			<div class="col-md-8 col-md-offset-2">
-				<form role="form" id="restForm" method="post"
-					action="/restaurant/register" onsubmit="return valForm(this)">
-					<div class="panel panel-info">
-						<div class="panel-heading">기본정보</div>
-						<!-- .panel-heading -->
-						<div class="panel-body">
+				<div class="panel panel-info">
+					<div class="panel-heading">기본정보</div>
+					<!-- .panel-heading -->
+					<form role="form" id="restForm" method="post" action="/restaurant/modrest" onsubmit="return valForm(this)">
+					<div class="panel-body">						
+							<input type="hidden" id="rest_resNum" name="resNum" value="${loginResNum}">
 							<div class="row" style="width: 90%; margin-left: 20px;">
-								<div class="form-group" id="idDiv">
+								<div class="form-group">
 									<label>아이디</label> <input type="text" class="form-control"
 										id="resID" name="resID" value="${myrest.resID}"
 										readonly="readonly" />
@@ -73,7 +73,7 @@
 							<div class="row" style="width: 90%; margin-left: 20px;">
 								<div class="form-group">
 									<label>패스워드</label><input type="password" class="form-control"
-										id="resPW" name="resPW" value="${myrest.resPW}" />
+										id="resPW" name="resPW" value="${myrest.resPW}" required/>
 								</div>
 								<!-- .form-group-->
 							</div>
@@ -91,13 +91,10 @@
 								<div class="form-group">
 									<label>대표 전화번호</label>
 									<div class="input-group">
-										<input type="text" class="form-control" id="phone_f"
-											name="phone_f" /><span class="input-group-addon">-</span> <input
-											type="text" class="form-control" id="phone_m" name="phone_m" /><span
-											class="input-group-addon">-</span> <input type="text"
-											class="form-control" id="phone_l" name="phone_l" /> <input
-											type="hidden" name="resPhone" id="resPhone"
-											value="${myrest.resPhone}" />
+										<input type="number" class="form-control" id="phone_f" name="divNum"  required/><span class="input-group-addon">-</span> 
+										<input type="number" class="form-control" id="phone_m" name="divNum"  required/><span class="input-group-addon">-</span> 
+										<input type="number" class="form-control" id="phone_l" name="divNum"  required/> 
+										<input type="hidden" name="resPhone" id="resPhone" value="${myrest.resPhone}" />
 									</div>
 								</div>
 								<!-- .form-group close -->
@@ -106,7 +103,7 @@
 							<div class="row" style="width: 90%; margin-left: 20px;">
 								<div class="form-group">
 									<label>식당 주소</label><input type="text" class="form-control"
-										id="resAddr" name="resAddr" value="${myrest.resAddr}" />
+										id="resAddr" name="resAddr" value="${myrest.resAddr}" required/>
 								</div>
 								<!-- .form-group close -->
 							</div>
@@ -114,8 +111,7 @@
 							<div class="row" style="width: 90%; margin-left: 20px;">
 								<div class="form-group">
 									<label>식당 소개</label>
-									<textarea class="form-control" rows="2" id="summary"
-										name="summary">${myrest.summary}</textarea>
+									<textarea class="form-control" rows="2" id="summary" name="summary" required>${myrest.summary}</textarea>
 								</div>
 								<!-- .form-group close -->
 							</div>
@@ -124,13 +120,10 @@
 								<div class="form-group">
 									<label>사업자번호</label>
 									<div class="input-group" id="coNum">
-										<input type="text" class="form-control" id="conum_f"
-											name="conum_f" /><span class="input-group-addon">-</span> <input
-											type="text" class="form-control" id="conum_m" name="conum_m" /><span
-											class="input-group-addon">-</span> <input type="text"
-											class="form-control" id="conum_l" name="conum_l" /> <input
-											type="hidden" name="co_Num" id="co_Num"
-											value="${myrest.co_Num}" />
+										<input type="number" class="form-control" id="conum_f" name="divNum" required/><span class="input-group-addon">-</span> 
+										<input type="number" class="form-control" id="conum_m" name="divNum"  required/><span class="input-group-addon">-</span> 
+										<input type="number" class="form-control" id="conum_l" name="divNum"  required> 
+										<input type="hidden" name="co_Num" id="co_Num" value="${myrest.co_Num}" />
 									</div>
 								</div>
 								<!-- .form-group close -->
@@ -145,82 +138,42 @@
 								<!-- .form-group close -->
 							</div>
 							<!--.row  -->
-
-						</div>
-
-						<!-- .panel-body -->
-						<div class="panel-footer ">
-							<div class="clearfix" style="text-align: right;">
-								<button type="button" data-oper="modify" class="btn btn-primary"
-									id="modBtn">수정하기</button>
-								<button type="button" data-oper="delete" class="btn btn-default"
-									id="delBtn">회원탈퇴</button>
-							</div>
-							<!-- .right clearfix -->
-						</div>
-						<!-- .panel-footer -->
+							<input type="hidden" name="certify" value="추후구현">						
 					</div>
-					<!--.panel panel-Info  -->
-				</form>
+					<!-- .panel-body -->
+					<div class="panel-footer ">
+						<div class="clearfix" style="text-align: right;">
+							<button data-oper="modify" class="btn btn-primary" >수정하기</button>
+							<button data-oper="delete" class="btn btn-default" >회원탈퇴(구현중)</button>
+						</div>
+						<!-- .right clearfix -->
+					</div>
+					<!-- .panel-footer -->
+					</form>
+				</div>
+				<!--.panel panel-Info  -->
+
 			</div>
 			<!-- .col-md-12 -->
 		</div>
 		<!-- .tab-pane -->
 		<!-- tab: 영업정보관리 여기부터 -->
 		<div class="tab-pane fade" id="myoper">
-			<form id="operForm" method="post" action="restaurant/register"
-				onsubmit="return valForm(this)">
-				<input type="hidden" name="resNum" id="oper_resNum"
-					value="${resNum}">
-				<jsp:include page="./getoper.jsp"></jsp:include>
-			</form>
-
+			<c:if test="${oper ne null}">
+			<jsp:include page="./getoper.jsp"></jsp:include></c:if>
 		</div>
 		<!--.tab-pane  -->
 		<!-- tab: 테이블관리 여기부터 -->
 		<div class="tab-pane fade" id="mysales">
-			<form id="saleForm" method="post" action="restaurant/register"
-				onsubmit="return valForm(this)">
-			 <input type="hidden" name="resNum" id="sales_resNum"
-					value="${resNum}">
-				<jsp:include page="./gettable.jsp"></jsp:include>	
-			</form>
+				<c:if test="${sales ne null}">
+				<jsp:include page="./gettable.jsp"></jsp:include></c:if>
 		</div>
 		<!--.tab-pane  -->
 
 		<!-- tab: 메뉴관리 여기부터 -->
 		<div class="tab-pane fade" id="mymenu">
-			<div class="col-lg-12">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<i class="fa fa-comments fa-fw"></i>Reply
-						<button id="addReplyBtn" class="btn btn-primary btn-xs pull-right">메뉴
-							추가</button>
-					</div>
-					<!--panel-heading  -->
-					<div class="panel-body">
-						<ul class="chat">
-							<li class='left clearfix' data-mno="${menus[i].menuNum}">
-								<div>
-									<div class='header'>
-										<strong class='primary-font'>${menus[i].menuName}</strong> <small
-											class='pull-right text-muted'>${menus[i].serving}</small>
-									</div>
-									<p>${menus[i].unitCost}</p>
-									<p>${menus[i].menuAcoount}</p>
-								</div>
-							</li>
-						</ul>
-					</div>
-					<!--panel-body  -->
-					<div class="panel-footer">
-						<!-- reply paging -->
-					</div>
-					<!--.panel-footer  -->
-				</div>
-				<!--panel panel-default  -->
-			</div>
-			<!-- .col-lg-12 -->
+				<c:if test="${menus ne null}">
+				<jsp:include page="./getmenufilelist.jsp"></jsp:include></c:if>
 		</div>
 		<!--.tab-pane  -->
 	</div>
@@ -230,7 +183,7 @@
 
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-	aria-labelledby="myModalLabel" aria-hidden="true">
+	aria-labelledby="myModal" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">

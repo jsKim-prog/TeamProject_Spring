@@ -10,7 +10,7 @@
 			<div class="col-md-12 col-sm-12">
 				<div class="block">
 					<p>
-						Copyright &copy; 2024 - All Rights Reserved.Design and Developed
+						Copyright &copy; 2014 - All Rights Reserved.Design and Developed
 						By <a href="http://www.themefisher.com">Themefisher</a>
 					</p>
 				</div>

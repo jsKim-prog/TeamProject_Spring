@@ -19,7 +19,7 @@ public interface MenuService {
 	public boolean modify(MenuVO menu);
 	
 	//d : delete one - 단일메뉴삭제
-	public boolean remove(int menuNum);
+	public boolean remove(MenuVO menu);
 	
 	//d: delete all - 매장전체 메뉴 삭제(회원탈퇴)
 	public int removeAll(String resNum);

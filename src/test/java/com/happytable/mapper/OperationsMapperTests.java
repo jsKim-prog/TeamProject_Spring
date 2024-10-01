@@ -57,8 +57,10 @@ public class OperationsMapperTests {
 	
 	@Test
 	public void testUpdate() {
-		OperationsVO vo = mapper.read("10000014kkk");
-		vo.setDayoff_weekCnt("13");
+		OperationsVO vo = mapper.read("10000117sus");
+
+		vo.setOpenTime("09:00");
+		vo.setEndTime("18:00");
 		
 		int rst = mapper.update(vo);
 		log.info("수정결과:" + rst); //수정결과:1

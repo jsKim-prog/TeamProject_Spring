@@ -1,21 +1,17 @@
 /**
- * restregmenu.js -> regmenu.jsp
+ * restregmenu.js -> regmenu.jsp, getmenu.jsp
  */
 
 $(document).ready(function() {
-	var listArea = $(".listarea"); //리스트, 안내문 들어갈 자리 정의
-	var textArea = listArea.find(".well");
-	var menuArea = listArea.find(".chat");
+	
 	var resNum = $("input[name='resNum']").val();
-	var modal = $(".modal"); //모달-메뉴등록용 데이터 정의(전송용)
-	var menuNum = "";
-	var menuName = modal.find("input[name='menuName']");
-	var mainIngredient = modal.find("input[name='mainIngredient']");
-	var menuAcoount = modal.find("textarea[name='menuAcoount']");
-	var unitCost = modal.find("input[name='unitCost']");
-	var serving = modal.find("input[name='serving']");
+	var menuName = $("input[name='menuName']");
+	var mainIngredient =$("input[name='mainIngredient']");
+	var menuAcoount = $("textarea[name='menuAcoount']");
+	var unitCost = $("input[name='unitCost']");
+	var serving = $("input[name='serving']");
 
-	var menuRegBtn = $("#menuRegBtn");
+	var menuRegBtn = $("#saveMenuBtn");
 
 	console.log("test:" + resNum);
 
@@ -30,41 +26,39 @@ $(document).ready(function() {
 			unitCost:unitCost.val(),
 			menuImg:"-"
 		}; //-**메뉴이미지는 추후구현
+		
+		console.log("test:" + menu);
 		regMenu(menu, function(result){
+			if(result=="success"){
 				alert("메뉴등록 성공");
-				modal.find("input").val("");
-				modal.modal("hide");
-				
-				showMenuList(resNum);
+				self.location='/restaurant/menulist'
+			}else{
+				alert("등록오류. 관리자에게 문의하세요.");
+			}
 		});
 	});
 	
-	function showMenuList(resNum){
-		getMenus(resNum, function(list){
-			console.log("test:"+list);
+	$(".getbtn").on("click", function(e){
+		var form = $("#menumodForm");
+		e.preventDefault();
+		var oper = $(this).data("oper");
+		console.log(oper);
+		if(oper === 'menumodify'){
+			form.attr("action", "/restaurant/modmenu");
+		}else if(oper==='menudelete'){
+			form.attr("action", "/restaurant/delmenu");
+		}else{
+			form.attr("action", "/restaurant/myrestaurant").attr("method", "get");
+			form.empty();
 			
-			if(list==null || list.length==0){ //리스트 없으면 메뉴영역 감추기
-				textArea.css("display", "block");
-				menuArea.css("display", "none");
-			}
-			
-			var str = "";
-			for(var i=0, len=list.length||0; i<len;i++){
-				str+="<li class='left clearfix' data-mno='"+list[i].menuNum+"'>";
-				str+="<div><div class='header'><strong class='primary-font'>"+list[i].menuName+"</strong>";
-				str+="<strong class='pull-right text-muted'>"+list[i].unitCost+"</strong></div>";
-				str+="<p>"+list[i].menuAcoount+"</p></div></li>";								
-			}
-			menuArea.html(str);
-			textArea.css("display", "none");
-			menuArea.css("display", "block");
-		});
-	} //--showMenuList()
+		}
+		
+		form.submit();
+	});
 
 
 
-
-}); //$(document).ready
+}); //$(document).ready 
 
 //메뉴등록 ajax
 function regMenu(menu, callback, error) {
@@ -87,10 +81,50 @@ function regMenu(menu, callback, error) {
 	});//--ajax
 } //--regMenu()
 
-//등록메뉴 불러오기(리스트보이기)
-function getMenus(resNum, callback, error){
-	console.log("test:메뉴리스트get ajax 함수실행....");
-	$.getJSON("/restaurant/getmenus/"+resNum+".json", function(list){
-		if(callback){callback(list)}
-	}).fail(function(xhr, status, er){error(er);});
-} //--showMenu()
+//사전작업
+var setting = (function() {
+	//formdata 만들기(이미지파일 아닌 부분)
+	function makeForm(form) {
+		var menu = new FormData();
+		var resNum = $("input[name='resNum']").val();
+		var menuName = $("input[name='menuName']").val();
+		var mainIngredient = $("input[name='mainIngredient']").val();
+		var menuAcoount = $("textarea[name='menuAcoount']").val();
+		var unitCost = $("input[name='unitCost']").val();
+		var serving = $("input[name='serving']").val();
+		var menuImg = "-";
+		//var file = menuImg[0].files;
+
+		menu.append(resNum, resNum);
+		menu.append(menuName, menuName);
+		menu.append(mainIngredient, mainIngredient);
+		menu.append(menuAcoount, menuAcoount);
+		menu.append(unitCost, unitCost);
+		menu.append(serving, serving);
+		menu.append(menuImg, menuImg);
+	}
+
+	//파일검증(확장자, 크기)
+	function checkFile(fileName, fileSize) {
+		var regex = new RegExp("(.*?)\.(jpg|jpeg|png|gif)$"); //이미지파일만 받는다.
+		var maxSize = 5242880; //5MB
+
+		if (fileSize > maxSize) {
+			alert("파일 사이즈가 너무 큽니다.(최대 5MB)");
+			return false;
+		}
+
+		if (!regex.test(fileName)) {
+			alert("이미지형식의 파일만 업로드 가능합니다.(jpg, png)");
+			return false;
+		}
+	}
+
+
+
+	return {
+		makeForm: makeForm,
+		checkFile: checkFile
+	}
+
+})();

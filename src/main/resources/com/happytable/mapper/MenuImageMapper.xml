@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.happytable.mapper.MenuImageMapper">
+<insert id="insert">
+	<![CDATA[
+	insert into tb_menuimg(resNum, menuNum, originName, uuid, saveName, folderName) values (#{resNum}, #{menuNum}, #{originName}, #{uuid}, #{saveName}, #{folderName})
+	]]>
+</insert>
+
+<update id="update">
+	<![CDATA[
+	update tb_menuimg set originName= #{originName}, uuid = #{uuid}, saveName = #{saveName}, folderName = #{folderName}, moddate = sysdate where menuNum = #{menuNum}
+	]]>
+</update>
+
+<delete id="delete">
+	<![CDATA[
+	delete from tb_menuimg where menuNum = #{menuNum}
+	]]>
+</delete>
+
+<delete id="deleteAll">
+	<![CDATA[
+	delete from tb_menuimg where resNum = #{resNum}
+	]]>
+</delete>
+
+<select id="read" resultType="com.happytable.domain.MenuImageVO">
+	<![CDATA[
+	select * from tb_menuimg where menuNum = #{menuNum}
+	]]>
+</select>
+
+<select id="countImg" resultType="int">
+	<![CDATA[
+	select count(*) from tb_menuimg where resNum = #{resNum}
+	]]>
+</select>
+
+
+<select id="readAll" resultType="com.happytable.domain.MenuImageVO">
+	<![CDATA[
+	select * from tb_menuimg where resNum = #{resNum} order by menuNum
+	]]>
+</select>
+
+</mapper>

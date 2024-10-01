@@ -20,7 +20,12 @@ public class RestaurantMapperTests {
 	
 	@Setter(onMethod_ = @Autowired)
 	private RestaurantMapper mapper;
-	
+	@Setter(onMethod_ = @Autowired)
+	private OperationsMapper mappOper;
+	@Setter(onMethod_ = @Autowired)
+	private SalesMapper mappSal;
+	@Setter(onMethod_ = @Autowired)
+	private MenuMapper mappMenu;
 	
 	//restaurantMapper
 	@Test
@@ -38,6 +43,7 @@ public class RestaurantMapperTests {
 		vo.setCo_Num("111-11-11111");
 		vo.setSummary("테스트용식당, 맛은 보장 못하는데요.");
 		vo.setCertify("");
+		vo.setResPhone("010-123-4567");
 		
 		int result = mapper.insert(vo);
 		log.info("등록결과 : "+result); //등록결과 : 1
@@ -51,7 +57,7 @@ public class RestaurantMapperTests {
 	
 	@Test
 	public void testUpdate() {
-		RestaurantVO vo = mapper.readByResnum("10000002tes");
+		RestaurantVO vo = mapper.readByResnum("10000046aaa");
 		vo.setResName("테스트식당 수정");
 		int rst = mapper.update(vo);
 		log.info("수정결과:" + rst); //수정결과:1
@@ -79,6 +85,21 @@ public class RestaurantMapperTests {
 	public void testLoginCheck() {
 		int rst = mapper.loginChech("kkk", "kkk");
 		log.info("계정개수 : "+rst); //계정개수 : 1
+	}
+	
+	@Test //등록정보 cnt 업데이트
+	public void testCnt() {
+		List<RestaurantVO> rests = mapper.resList();
+		for(RestaurantVO temp:rests) {
+			String resnum = temp.getResNum();
+			int cntOper = mappOper.checkOper(resnum);
+			int cntTable = mappSal.countTable(resnum);
+			int cntMenu = mappMenu.countMenu(resnum);
+			mapper.updateOperCnt(resnum, cntOper);
+			mapper.updateTableCnt(resnum, cntTable);
+			mapper.updateMenuCnt(resnum, cntMenu);
+			log.info("업데이트 결과:"+temp);
+		}
 	}
 
 }
