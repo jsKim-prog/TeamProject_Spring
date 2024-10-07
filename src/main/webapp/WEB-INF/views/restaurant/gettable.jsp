@@ -12,9 +12,10 @@
 			<!-- panel-heading -->
 			<div class="panel-body">
 			<div class="table-responsive">
-				<table class="table " >
+			<input type="hidden" id="tbLen" value="${tbLen}">
+				<table class="table" >
 					<thead>
-						<tr id=''>
+						<tr>
 							<th width="15%">#</th>
 							<th width="35%">운영타입</th>
 							<th width="35%">최대 수용인원</th>
@@ -22,7 +23,7 @@
 						</tr>
 					</thead>
 					<tbody id="table-body">
-					<c:forEach items="${sales}" var="tables">
+					<c:forEach items="${sales}" var="tables" varStatus="status">
 						<tr>
 							<td><input class="index form-control" type="number" value="" readonly="readonly">
 							<input type="hidden" name="tableNum" value="${tables.tableNum}"></td>
@@ -35,7 +36,7 @@
 							</td>
 							<td><div class="input-group">
 							<input class="form-control"  type="number" name="headCount" value="${tables.headCount}"/><span class="input-group-addon">명</span></div></td>
-							<td><input  class="delbtn btn btn-default btn-sm"  value="삭제" onclick="" style="width: 50%">
+							<td><input  class="delBtn btn btn-default btn-sm"  value="삭제" onclick="delTableTR(${status.index + 1})" style="width: 50%">
 							</td>
 						</tr>
 					</c:forEach>	
@@ -48,8 +49,8 @@
 			<!-- panel-body -->
 			<div class="panel-footer">
 			<div class="clearfix" style="text-align: right;">
-				<button class="btn btn-primary" id="modtableBtn">일괄수정</button>
-				<button class="btn btn-default" id="deltableBtn">전체삭제하기</button>
+				<input class="btn btn-primary" id="modtableBtn" value="일괄수정" style="width: 30%;">
+				<input class="btn btn-default" id="deltableBtn" value="전체삭제하기" style="width: 30%;">
 				</div>
 			</div>
 		</div>
@@ -60,7 +61,7 @@
 
 <!-- Modal -->
 <div class="modal fade" id="tableModal" tabindex="-1" role="dialog"
-	aria-labelledby="myModalLabel" aria-hidden="true">
+	aria-labelledby="tableModal" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -73,8 +74,8 @@
 			</div>
 			<div class="modal-footer">
 			<button data-oper="deleteone" class="btn btn-success" id="tb_delBtn">삭제하기</button>
-				<button data-oper="deleteall" class="btn btn-success" id="tb_delallBtn">삭제하기</button>
-				<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+			<button data-oper="deleteall" class="btn btn-success" id="tb_delallBtn">삭제하기</button>
+			<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
 			</div>
 		</div>
 		<!-- /.modal-content -->
@@ -83,4 +84,5 @@
 </div>
 <!-- /.modal -->
 
-<script type="text/javascript" src="/resources/js/restregtable.js"></script>
+<script type="text/javascript" src="/resources/js/restgettable.js"></script>
+<script type="text/javascript" src="/resources/js/resttablecommon.js"></script>

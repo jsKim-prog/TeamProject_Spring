@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.happytable.mapper.SalesMapper">
- <insert id="insert"> 
+ <insert id="insert" parameterType="com.happytable.domain.SalesVO"> 
  <selectKey keyProperty="tableNum" order="BEFORE" resultType="int">
  	select seq_table.nextval from dual
  </selectKey>

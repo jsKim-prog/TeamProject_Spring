@@ -35,7 +35,7 @@
 					<!--.row  -->
 					<div class="row" style="width: 90%; margin-left: 20px;">
 						<div class="form-group">
-							<label>패스워드</label><input type="text" class="form-control"
+							<label>패스워드</label><input type="password" class="form-control"
 								id="resPW" name="resPW"
 								placeholder="패스워드를 입력하세요.(영문, 숫자, 특수기호 포함 6자 이상)" />
 						</div>
@@ -53,10 +53,10 @@
 					<div class="row" style="width: 90%; margin-left: 20px;">
 						<div class="form-group">
 							<label>대표 전화번호</label>
-							<div class="input-group" >
-								<input type="number" class="form-control" id="phone_f" name="divNum" /><span class="input-group-addon">-</span> 
-								<input type="number" class="form-control" id="phone_m" name="divNum" /><span class="input-group-addon">-</span> 
-								<input type="number" class="form-control" id="phone_l" name="divNum" />
+							<div class="phone input-group" >
+								<input type="number" class="form-control" id="phone_f" name="divNum" maxlength="3"/><span class="input-group-addon">-</span> 
+								<input type="number" class="form-control" id="phone_m" name="divNum" maxlength="4"/><span class="input-group-addon">-</span> 
+								<input type="number" class="form-control" id="phone_l" name="divNum" maxlength="4"/>
 								<input type="hidden" name="resPhone" id="resPhone" />	
 							</div>
 						</div>
@@ -83,10 +83,10 @@
 					<div class="row" style="width: 90%; margin-left: 20px;">
 						<div class="form-group">
 							<label>사업자번호</label>
-							<div class="input-group" id="coNum">
-								<input type="number" class="form-control" id="conum_f" name="divNum"/><span class="input-group-addon">-</span> 
-								<input type="number" class="form-control" id="conum_m"  name="divNum"/><span class="input-group-addon">-</span> 
-								<input type="number" class="form-control" id="conum_l" name="divNum"/>
+							<div class="comun input-group" id="coNum">
+								<input type="number" class="form-control" id="conum_f" name="divNum" maxlength="3"/><span class="input-group-addon">-</span> 
+								<input type="number" class="form-control" id="conum_m"  name="divNum" maxlength="2"/><span class="input-group-addon">-</span> 
+								<input type="number" class="form-control" id="conum_l" name="divNum" maxlength="5"/>
 								<input type="hidden" name="co_Num" id="co_Num" />	
 							</div>
 						</div>

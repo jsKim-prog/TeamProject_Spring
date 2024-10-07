@@ -6,21 +6,25 @@
 
 <div class="row">
 	<div class="col-md-12">
-		<h1 class="heading">
-			<span>myRestaurant</span>
-		</h1>
+		<h1 class="heading"><span>myRestaurant</span></h1>
 	</div>
 	<!-- .col-md-12 close -->
 </div>
+<div class="row col-md-8 col-md-offset-2">
+	<div class="porting pull-right">
+	<span class="text-danger" id="portingGuide">홈페이지 등록이 완료되어야 홈페이지에서 확인이 가능합니다. </span>
+	<button data-oper = "porting" id="portingBtn" class="btn btn-warning">홈페이지 등록</button>
+	</div>
+</div>
 <!-- .row close -->
-<div class="row" style="margin-top: 50px;">
+<div class="row">
 	<!-- Nav tabs -->
 	<div class="col-md-8 col-md-offset-2">
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#myRest" data-toggle="tab">기본정보관리</a></li>
 			<c:choose>
 				<c:when test="${oper eq null}">
-					<li id="nonOper"><a href="#myModal" data-toggle="modal">영업정보관리(미등록)</a></li>
+					<li id="nonOper"><a href="#myrestModal" data-toggle="modal">영업정보관리(미등록)</a></li>
 				</c:when>
 				<c:when test="${oper ne null}">
 					<li><a href="#myoper" data-toggle="tab">영업정보관리</a></li>
@@ -28,7 +32,7 @@
 			</c:choose>
 			<c:choose>
 				<c:when test="${sales eq null}">
-					<li id="nonSales"><a href="#myModal" data-toggle="modal">테이블운영정보관리(미등록)</a></li>
+					<li id="nonSales"><a href="#myrestModal" data-toggle="modal">테이블운영정보관리(미등록)</a></li>
 				</c:when>
 				<c:when test="${sales ne null}">
 					<li><a href="#mysales" data-toggle="tab">테이블운영정보관리</a></li>
@@ -36,7 +40,7 @@
 			</c:choose>
 			<c:choose>
 				<c:when test="${menus eq null}">
-					<li id="nonMenu"><a href="#myModal" data-toggle="modal">메뉴관리(미등록)</a></li>
+					<li id="nonMenu"><a href="#myrestModal" data-toggle="modal">메뉴관리(미등록)</a></li>
 				</c:when>
 				<c:when test="${menus ne null}">
 					<li><a href="#mymenu" data-toggle="tab">메뉴관리</a></li>
@@ -144,7 +148,7 @@
 					<div class="panel-footer ">
 						<div class="clearfix" style="text-align: right;">
 							<button data-oper="modify" class="btn btn-primary" >수정하기</button>
-							<button data-oper="delete" class="btn btn-default" >회원탈퇴(구현중)</button>
+							<button data-oper="delete" class="btn btn-default" >회원탈퇴</button>
 						</div>
 						<!-- .right clearfix -->
 					</div>
@@ -182,8 +186,8 @@
 <!-- .row -->
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-	aria-labelledby="myModal" aria-hidden="true">
+<div class="modal fade" id="myrestModal" tabindex="-1" role="dialog"
+	aria-labelledby="myrestModal" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">

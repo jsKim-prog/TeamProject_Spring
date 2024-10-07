@@ -70,26 +70,17 @@ String loggedInStr2 = (loggedIn2 != null && loggedIn2) ? "true" : "false";
 				<li class="dropdown"><a class="dropdown-toggle" href="/"> 홈
 				</a>
 				<li id="mypage" class="dropdown"><a class="dropdown-toggle"
-					href="/restaurant/myrestaurant?resNum=${ loginResNum }"> 내정보 </a>
+					href="/restaurant/myrestaurant"> 내정보 </a>
 				<li id="checkrev" class="dropdown"><a class="dropdown-toggle"
 					href="/order/listRes?resNum=${ loginResNum }"> 예약조회 </a>
 				<li class="dropdown" id="login"><a href="/restaurant/restlogin">로그인</a></li>
 
-				<li class="dropdown" id="logout"><a href="/member/logout">로그아웃</a></li>
-
-
-
-
-
-
+				<li class="dropdown" id="logout"><a href="/restaurant/logout">로그아웃</a></li>
 			</ul>
 
 			<!-- /.navbar-top-links -->
 
 		</nav>
-
-
-
 		<div id="page-wrapper">
 			<script
 				src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

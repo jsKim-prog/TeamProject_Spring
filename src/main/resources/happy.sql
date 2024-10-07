@@ -163,7 +163,7 @@ CACHE 20;
 --drop sequence seq_gcNum;
 
 
-
+select * from tb_resnum;
 
 ------------------------------------------test용 영역
 SELECT DECODE(TO_CHAR(TRUNC(sysdate,'MONTH'), 'D'), 7,TRUNC(sysdate,'MONTH'), NEXT_DAY(TRUNC(sysdate,'MONTH'),'토')) FIRST, DECODE(TO_CHAR(TRUNC(sysdate,'MONTH'), 'D'), 7,TRUNC(sysdate,'MONTH')+14, NEXT_DAY(TRUNC(sysdate,'MONTH'),'토')+14) THIRD FROM dual;

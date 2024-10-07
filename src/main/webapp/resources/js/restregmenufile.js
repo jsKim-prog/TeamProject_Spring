@@ -105,7 +105,7 @@ $(document).ready(function() {
 					});
 					return;
 				} else { //이미지 변경된 경우
-					menuset.makeMenu();
+					menuset.makeAllData();
 					var data = menuset.makeData();
 					menuService.modForm(data, function(result) {
 						if (result == "success") {
@@ -206,6 +206,34 @@ var menuset = (function() {
 		console.log("test:" + $("#menu").val());
 
 	}
+	
+	//formdata 만들기(이미지+data-수정용)
+	function makeAllData() {
+		var resNum = $("input[name='resNum']").val();
+		var menuNum = $("#menuNum").val();
+		var menuName = $("input[name='menuName']").val();
+		var mainIngredient = $("input[name='mainIngredient']").val();
+		var menuAcoount = $("textarea[name='menuAcoount']").val();
+		var unitCost = $("input[name='unitCost']").val();
+		var serving = $("input[name='serving']").val();
+		var input = $("#fileinput");
+		var file = input[0].files;
+
+		var menu = {
+			resNum: resNum,
+			menuNum:menuNum,
+			menuName: menuName,
+			menuAcoount: menuAcoount,
+			mainIngredient: mainIngredient,
+			serving: serving,
+			unitCost: unitCost,
+			menuImg: file[0].name
+		};
+
+		$("#menu").val(JSON.stringify(menu));
+		console.log("test:" + $("#menu").val());
+
+	}
 
 	//formdata 만들기(data-savename 그대로 받아가기:이미지 수정 없음+menuNum 필수!!)
 	function makeOnlyMenu() {
@@ -244,7 +272,7 @@ var menuset = (function() {
 		data.append("menuImg", file[0]);
 		data.append("menu", new Blob([menu], { type: "application/json" }));
 
-		console.log("test:" + file);
+		console.log("test:" + file[0]);
 		console.log("test:" + menu);
 		return data;
 	}
@@ -284,6 +312,7 @@ var menuset = (function() {
 
 	return {
 		makeMenu: makeMenu,
+		makeAllData:makeAllData,
 		makeOnlyMenu: makeOnlyMenu,
 		checkFile: checkFile,
 		oneFileCheck: oneFileCheck,
@@ -324,7 +353,7 @@ var menuService = (function() {
 		//console.log("test:이미지포함 전송실행...");
 		$.ajax({
 			url: '/restaurant/modmenufile',
-			type: 'put',
+			type: 'post',
 			enctype: 'multipart/form-data',
 			processData: false,
 			contentType: false,

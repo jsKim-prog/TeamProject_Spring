@@ -41,7 +41,7 @@ var menupreset = (function() {
 			imgbox.append(str);
 			//target.attr("src", "/restaurant/displaythumb?fileName="+fileName+"");
 			console.log("test src: " +fileName);
-		})		
+		});		
 	}
 	
 	return{

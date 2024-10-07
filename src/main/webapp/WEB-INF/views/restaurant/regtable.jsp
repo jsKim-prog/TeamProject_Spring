@@ -24,7 +24,7 @@
 			<div class="table-responsive">
 				<table class="table " >
 					<thead>
-						<tr id=''>
+						<tr>
 							<th width="15%">#</th>
 							<th width="35%">운영타입</th>
 							<th width="35%">최대 수용인원</th>
@@ -33,7 +33,7 @@
 					</thead>
 					<tbody id="table-body">
 						<tr>
-							<td><input class="index form-control" type="number" value="" readonly="readonly"></td>
+							<td><input class="index form-control" type="number" value="1" readonly="readonly"></td>
 							<td>
 							<select class="form-control" name="tableType">
 							<option value="room">룸타입</option>
@@ -42,7 +42,7 @@
 							</td>
 							<td><div class="input-group">
 							<input class="form-control"  type="number" name="headCount" value="0"/><span class="input-group-addon">명</span></div></td>
-							<td><input  class="delbtn btn btn-default btn-sm"  value="삭제" onclick="" style="width: 50%">
+							<td><input class="delBtn btn btn-default btn-sm"  value="삭제" onclick="deleteTR(1, 1)" style="width: 50%">
 							</td>
 						</tr>
 					</tbody>
@@ -64,4 +64,5 @@
 <!-- resnum 전송위한 hidden -->
 <input type="hidden" id="sales_resNum" name="resNum" value="${loginResNum}">
 <script type="text/javascript" src="/resources/js/restregtable.js"></script>
+<script type="text/javascript" src="/resources/js/resttablecommon.js"></script>
 <%@ include file="../includes/footer2.jsp"%>

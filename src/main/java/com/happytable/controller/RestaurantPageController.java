@@ -1,30 +1,23 @@
 package com.happytable.controller;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 import java.util.List;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.ResponseBody;
+
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.happytable.domain.MenuImageVO;
 import com.happytable.domain.MenuPageDTO;
 import com.happytable.domain.MenuVO;
 import com.happytable.domain.OperationsVO;
@@ -38,7 +31,6 @@ import com.happytable.service.SalesService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import net.coobird.thumbnailator.Thumbnailator;
 
 @Controller
 @Log4j2
@@ -74,8 +66,8 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		return result;
 	}
 
-	@PostMapping("/login") // member 페이지 로그인용
-	public String login(RestaurantVO rest, Model model, RedirectAttributes rttr) { // req : 세션생성용
+	@PostMapping("/login") // member 페이지 로그인용 --**10/02 수정
+	public String login(HttpSession session, RestaurantVO rest, Model model, RedirectAttributes rttr) { // req : 세션생성용
 		String id = rest.getResID();
 		String pw = rest.getResPW();
 		log.info("test : 로그인 계정:" + id + "/" + pw);
@@ -85,9 +77,9 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 			String resNum = serviceRest.login(id, pw);
 			RestaurantVO restVO = serviceRest.get(resNum);
 			// session생성
-			model.addAttribute("loginMember2", restVO.getResName());// 레스토랑 이름
-			model.addAttribute("loginResNum", restVO.getResNum()); // resNum
-			model.addAttribute("loggedIn2", true);
+			session.setAttribute("loginMember2", restVO.getResName());// 레스토랑 이름
+			session.setAttribute("loggedIn2", true);
+			session.setAttribute("loginResNum", restVO.getResNum());// resNum
 
 			return "redirect:/";
 		} else {
@@ -117,7 +109,7 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		menufile.setMenuCnt(0);
 		// List<MenuVO> menus = null;
 		List<SalesVO> tables = null;
-		String uploaFolder = "D:\\upload\\";
+		//String uploaFolder = "D:\\upload\\";
 
 		if (opercnt != 0) {
 			oper = serviceOper.get(resNum);
@@ -132,6 +124,7 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		}
 		if (salCnt != 0) {
 			tables = serviceSal.getList(resNum);
+			model.addAttribute("tbLen", serviceSal.countTable(resNum)); //**10/01 추가
 		}
 
 		model.addAttribute("myrest", myrest);
@@ -140,7 +133,7 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		model.addAttribute("menus", menufile.getMenus());
 		model.addAttribute("menuCnt", menufile.getMenuCnt());
 		model.addAttribute("menuimgs", menufile.getMImgs());
-		model.addAttribute("upath", uploaFolder);
+		//model.addAttribute("upath", uploaFolder);
 
 		log.info("test : 보낼 menu개수:" + menufile.getMenuCnt());
 	}
@@ -231,9 +224,9 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		return "redirect:/restaurant/myrestaurant";
 	}
 
-	// 메뉴등록 페이지(리스트)
-	@GetMapping("/menulist") // http://localhost/restaurant/menulist
-	public void menulist(@ModelAttribute("loginResNum") String resNum, Model model) {
+	// 메뉴등록 페이지(리스트) **10/02 수정
+	@GetMapping("/menufilelist") // http://localhost/restaurant/menulist
+	public void menufilelist(@ModelAttribute("loginResNum") String resNum, Model model) {
 		log.info("메뉴리스트 get() 실행-------" + resNum);
 		MenuPageDTO menus = serviceMenu.getMenuList(resNum);
 		menus.setMenuCnt(serviceMenu.countMenu(resNum));
@@ -299,5 +292,14 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		model.addAttribute("menu", serviceMenu.get(menuNum));
 		model.addAttribute("menuImg", serviceMimg.getImage(menuNum));
 	}
+	
+	
+	// 로그아웃 --**10/02 추가
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
+	}
+
 
 }

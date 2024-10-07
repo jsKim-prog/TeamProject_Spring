@@ -21,7 +21,7 @@ $(document).ready(function() {
 		//var timeID = $(this).attr("id");
 		var timeName = $(this).next();
 		timeName.val(time + "");
-		console.log("test:" + timeName.attr("name") + " " + timeName.val());
+		//console.log("test:" + timeName.attr("name") + " " + timeName.val());
 	});
 
 
@@ -40,7 +40,7 @@ $(document).ready(function() {
 		var radioNamebox = $(".radioSelect").find("input[name=" + radioName[0] + "]");
 		radioNamebox.attr("value", checkval);
 		operView.viewradioResult(radioName[0]);
-		console.log("test namebox:" + radioNamebox.val());
+		//console.log("test namebox:" + radioNamebox.val());
 	});
 
 
@@ -64,12 +64,12 @@ $(document).ready(function() {
 		var checkVal = $(this).is(":checked"); //체크여부(true, false)
 		if (!checkVal) {
 			$(this).prev().val('false');
-			console.log($("input[name='menuReserv']").val());
+			//console.log($("input[name='menuReserv']").val());
 		}
 
 		if (checkVal) { //해당 체크박스가 체크상태라면
 			$(this).prev().val('true');
-			console.log($("input[name='menuReserv']").val());
+			//console.log($("input[name='menuReserv']").val());
 		}
 	});
 
@@ -102,13 +102,13 @@ function valForm(form) {
 	var adPay = $("input[name='adPay']").val();
 
 	if (openTime == "--:--" || openTime == "") {
-		console.log(openTime);
+		//console.log(openTime);
 		alert("영업시작 시간을 입력하세요.");
 		return false;
 	}
 
 	if (endTime == "--:--" || endTime == '') {
-		console.log(endTime);
+		//console.log(endTime);
 		alert("영업종료 시간을 입력하세요.");
 		return false;
 	}
@@ -178,8 +178,8 @@ var operset = (function() {
 			var selID = $(item).attr("id");
 			var selNamebox = $("#dayoff").find("input[name=" + selID + "]");
 			$(item).attr("value", selNamebox.value);
-			console.log("test selbox:" + selNamebox.attr("name") + selNamebox.val());
-			console.log("test idselbox:" + $(item).val());
+			//console.log("test selbox:" + selNamebox.attr("name") + selNamebox.val());
+			//console.log("test idselbox:" + $(item).val());
 		});
 	}
 
@@ -192,18 +192,18 @@ var operset = (function() {
 			//console.log("test boxName:" + boxName[0]);
 			var radioNamebox = $(".radioSelect").find("input[name=" + boxName[0] + "]");
 			var nameval = radioNamebox.val();
-			console.log("test nameval:" + nameval);
+			//console.log("test nameval:" + nameval);
 			//값에 따른 라디오버튼 활성화
 			if (item.value == nameval) {
 				$(item).prop("checked", true);
 			} else {
 				$(item).prop("checked", false);
 			}
-			console.log("test radiodef:" + boxName + nameval);
+			//console.log("test radiodef:" + boxName + nameval);
 			//console.log("test radiodef_name:" + radioval);
 			//input 박스 보이기 설정
 			var inputID = boxName[0] + "_input";
-			console.log("test inputID :" + inputID);
+			//console.log("test inputID :" + inputID);
 			var inputDiv = $(".row [id='" + inputID + "']");
 			if (nameval == "true") {
 				inputDiv.css("display", "block");
@@ -240,9 +240,9 @@ var operView = (function() {
 		var inputID = radioName + "_input";
 		var btVal = $("input[name='"+radioName+"']").val(); //namebox의 값 true/false
 
-		console.log("test breakTime :" + btVal);
+		//console.log("test breakTime :" + btVal);
 		var inputDiv = $(".row[id='" + inputID + "']");
-		console.log("test inputID :" + inputID);
+		//console.log("test inputID :" + inputID);
 		if (btVal == "true") {
 			inputDiv.css("display", "block");
 		} else {
@@ -264,16 +264,16 @@ var operView = (function() {
 		}
 		if (dayoffcateVal === "매월") { //매월 선택
 			weekSelBox.prop("disabled", false);
-			$("#dayoff_weekCnt option[value='1']").prop("selected", true);
+			//$("#dayoff_weekCnt option[value='1']").prop("selected", true);
 			daySelBox.prop("disabled", false);
-			$("#dayoff_Day option[value='월']").prop("selected", true);
+			//$("#dayoff_Day option[value='월']").prop("selected", true);
 		}
 		if (dayoffcateVal === "매주") { //매주 선택
 			weekSelBox.prop("disabled", true);
 			$("#dayoff_weekCnt option[value='-']").prop("selected", true);
 			$("#dayoff_weekCnt").val("-");
 			daySelBox.prop("disabled", false);
-			$("#dayoff_Day option[value='월']").prop("selected", true);
+			//$("#dayoff_Day option[value='월']").prop("selected", true);
 		}
 	}
 

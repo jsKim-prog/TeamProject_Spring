@@ -1,11 +1,14 @@
 package com.happytable.service;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.happytable.domain.MenuImageVO;
 import com.happytable.domain.MenuVO;
 
 import lombok.Setter;
@@ -38,6 +41,15 @@ public class MenuServeiceTests {
 		String resNum ="10000105tes";
 		int rst= serMenu.countMenu(resNum);
 		log.info("------------"+resNum+" : "+ rst); //1
+	}
+	
+	@Test //메뉴-이미지 리스트 확인
+	public void listTest() {
+		String resNum ="10000105tes";
+		List<MenuVO> menus = serMenu.getList(resNum);
+		List<MenuImageVO> menuImg = serMimg.getImgList(resNum);
+		log.info("--------메뉴리스트"+menus); 
+		log.info("--------메뉴이미지리스트"+menuImg); 
 	}
 
 
